@@ -4,8 +4,10 @@ import authRoutes from "../routes/auth.routes.js"
 import booksRoutes from "../routes/book.routes.js"
 import orderRoutes from "../routes/order.routes.js"
 import aiRoutes from "../routes/ai.routes.js"
-const app=express();
+import cors from "cors";
 
+const app=express();
+app.use(cors());
 app.use(express.json());
 connectDB()
 
