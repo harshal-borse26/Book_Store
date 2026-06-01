@@ -356,3 +356,72 @@ button {
 .description-box h3 {
   margin-bottom: 10px;
 }
+
+
+.auth-container {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
+}
+
+.auth-card h1 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-card input {
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.auth-card button {
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.auth-card button:hover {
+  background: #1d4ed8;
+}
+
+.auth-message {
+  text-align: center;
+  margin-top: 15px;
+}
+
+
+.welcome-user {
+  color: #000000;
+  font-weight: 600;
+}
+
+.logout-btn {
+  border: none;
+  background: #3167de;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
