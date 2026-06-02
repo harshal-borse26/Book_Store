@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+
+
 
 function BookDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [message, setMessage] = useState("");
 
   const [book, setBook] = useState(null);
 
@@ -28,6 +34,50 @@ function BookDetails() {
       </div>
     );
   }
+   
+  const handleBuyNow = async () => {
+
+  const token =
+    localStorage.getItem("token");
+
+  if (!token) {
+    navigate("/login");
+    return;
+  }
+
+  try {
+
+    const response = await api.post(
+      "/order/plaaceorder",
+      {
+        books: [
+          {
+            bookId: book._id,
+            quantity: 1
+          }
+        ]
+      },
+      {
+        headers: {
+          Authorization:
+            `Bearer ${token}`
+        }
+      }
+    );
+
+    setMessage(
+      response.data.message
+    );
+
+  } catch (error) {
+
+    setMessage(
+      error.response?.data?.message ||
+      "Order failed"
+    );
+
+  }
+};
 
   return (
   <div className="container details-page">
@@ -35,7 +85,17 @@ function BookDetails() {
     <div className="details-card">
 
       <div className="details-cover">
-        📖
+
+        {book.imageUrl ? (
+          <img
+            src={book.imageUrl}
+            alt={book.title}
+            className="details-image"
+          />
+        ) : (
+          "📖"
+        )}
+
       </div>
 
       <div className="details-content">
@@ -63,12 +123,26 @@ function BookDetails() {
             <p>₹{book.price}</p>
           </div>
 
+          <button                           
+            className="buy-btn"
+            onClick={handleBuyNow}
+          >
+            Buy Now
+          </button>
+
         </div>
 
         <div className="description-box">
           <h3>Description</h3>
           <p>{book.desc}</p>
         </div>
+
+        {
+        message &&
+        <p className="order-message">
+          {message}
+        </p>
+        }
 
       </div>
 

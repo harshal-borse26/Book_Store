@@ -9,7 +9,17 @@ function BookCard({ book }) {
       <div className="book-card">
 
         <div className="book-cover">
-          📚
+
+          {book.imageUrl ? (
+            <img
+              src={book.imageUrl}
+              alt={book.title}
+              className="book-image"
+            />
+          ) : (
+            "📚"
+          )}
+
         </div>
 
         <div className="book-content">

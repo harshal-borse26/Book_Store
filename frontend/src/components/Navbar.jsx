@@ -39,6 +39,8 @@ function Navbar() {
               <Link to="/register">
                 Register
               </Link>
+
+
             </>
           ) : (
             <>
@@ -46,6 +48,16 @@ function Navbar() {
                 Welcome, {user.username}
               </span>
 
+              <Link to="/orders">
+                My Orders
+              </Link>
+
+               {user.role === "admin" && (
+                  <Link to="/add-book">
+                  Add Book
+                  </Link>
+                )}
+              
               <button
                 className="logout-btn"
                 onClick={handleLogout}
