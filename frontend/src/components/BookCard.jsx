@@ -2,51 +2,54 @@ import { Link } from "react-router-dom";
 
 function BookCard({ book }) {
   return (
-    <Link
-      to={`/book/${book._id}`}
-      className="book-link"
-    >
-      <div className="book-card">
+  
+<Link
+  to={`/book/${book._id}`}
+  className="book-link"
+>
 
-        <div className="book-cover">
+  <div className="premium-book-card">
 
-          {book.imageUrl ? (
-            <img
-              src={book.imageUrl}
-              alt={book.title}
-              className="book-image"
-            />
-          ) : (
-            "📚"
-          )}
+    <div className="premium-book-cover">
 
+      {book.imageUrl ? (
+        <img
+          src={book.imageUrl}
+          alt={book.title}
+        />
+      ) : (
+        <div className="book-placeholder">
+          📚
         </div>
+      )}
 
-        <div className="book-content">
-          <h3>{book.title}</h3>
+    </div>
 
-          <p className="author">
-            by {book.author}
-          </p>
+    <div className="premium-book-info">
 
-          <p className="language">
-            {book.language}
-          </p>
+      <h3>{book.title}</h3>
 
-          <div className="book-footer">
-            <span className="price">
-              ₹{book.price}
-            </span>
+      <p>{book.author}</p>
 
-            <span className="details-btn">
-              View Details →
-            </span>
-          </div>
-        </div>
+      <div className="premium-book-footer">
+
+        <span>
+          ₹{book.price}
+        </span>
+
+        <span>
+          View →
+        </span>
 
       </div>
-    </Link>
-  );
+
+    </div>
+
+  </div>
+
+</Link>
+
+);
 }
 
 export default BookCard;

@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
-
-
+import toast from "react-hot-toast";
+import Loader from "../components/Loader";
 
 function BookDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const [message, setMessage] = useState("");
 
   const [book, setBook] = useState(null);
 
@@ -28,128 +26,128 @@ function BookDetails() {
   };
 
   if (!book) {
-    return (
-      <div className="container">
-        <h2>Loading...</h2>
-      </div>
-    );
+    return <Loader />;
   }
-   
+
   const handleBuyNow = async () => {
+    const token = localStorage.getItem("token");
 
-  const token =
-    localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
 
-  if (!token) {
-    navigate("/login");
-    return;
-  }
+    try {
+      const response = await api.post(
+        "/order/placeorder",
+        {
+          books: [
+            {
+              bookId: book._id,
+              quantity: 1,
+            },
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-  try {
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Order failed");
+    }
+  };
 
-    const response = await api.post(
-      "/order/plaaceorder",
-      {
-        books: [
-          {
-            bookId: book._id,
-            quantity: 1
-          }
-        ]
-      },
-      {
-        headers: {
-          Authorization:
-            `Bearer ${token}`
-        }
+  const handleWishlist = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        navigate("/login");
+
+        return;
       }
-    );
 
-    setMessage(
-      response.data.message
-    );
+      const response = await api.post(
+        `/wishlist/${book._id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-  } catch (error) {
-
-    setMessage(
-      error.response?.data?.message ||
-      "Order failed"
-    );
-
-  }
-};
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response?.data?.message);
+    }
+  };
 
   return (
-  <div className="container details-page">
-
-    <div className="details-card">
-
-      <div className="details-cover">
-
-        {book.imageUrl ? (
-          <img
-            src={book.imageUrl}
-            alt={book.title}
-            className="details-image"
-          />
-        ) : (
-          "📖"
-        )}
-
-      </div>
-
-      <div className="details-content">
-
-        <h1>{book.title}</h1>
-
-        <p className="details-author">
-          by {book.author}
-        </p>
-
-        <div className="details-info">
-
-          <div>
-            <strong>Language</strong>
-            <p>{book.language}</p>
-          </div>
-
-          <div>
-            <strong>Stock</strong>
-            <p>{book.stock}</p>
-          </div>
-
-          <div>
-            <strong>Price</strong>
-            <p>₹{book.price}</p>
-          </div>
-
-          <button                           
-            className="buy-btn"
-            onClick={handleBuyNow}
-          >
-            Buy Now
-          </button>
-
+    <div className="container details-page">
+      <div className="details-card">
+        <div className="details-cover">
+          {book.imageUrl ? (
+            <img
+              src={book.imageUrl}
+              alt={book.title}
+              className="details-image"
+            />
+          ) : (
+            "📖"
+          )}
         </div>
 
-        <div className="description-box">
-          <h3>Description</h3>
-          <p>{book.desc}</p>
+        <div className="details-content">
+          <span className="book-badge">⭐ Reader's Choice</span>
+
+          <h1>{book.title}</h1>
+
+          <p className="details-author">by {book.author}</p>
+
+          <div className="price-section">
+            <span className="price-label">Starting From</span>
+
+            <h2>₹{book.price}</h2>
+          </div>
+
+          <div className="details-meta">
+            <div className="meta-card">
+              <span>Language</span>
+
+              <strong>{book.language}</strong>
+            </div>
+
+            <div className="meta-card">
+              <span>Available</span>
+
+              <strong>{book.stock} Books</strong>
+            </div>
+          </div>
+
+          <div className="action-buttons">
+            <button className="buy-btn" onClick={handleBuyNow}>
+              🛒 Buy Now
+            </button>
+
+            <button className="wishlist-btn" onClick={handleWishlist}>
+              ❤️ Save
+            </button>
+          </div>
+
+          <div className="description-box">
+            <h3>About This Book</h3>
+
+            <p>{book.desc}</p>
+          </div>
         </div>
-
-        {
-        message &&
-        <p className="order-message">
-          {message}
-        </p>
-        }
-
       </div>
-
     </div>
-
-  </div>
-);
+  );
 }
 
 export default BookDetails;

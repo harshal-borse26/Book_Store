@@ -1,6 +1,6 @@
 import { useState } from "react";
 import api from "../services/api";
-
+import toast from "react-hot-toast";
 function AddBook() {
 
   const [formData, setFormData] = useState({
@@ -13,16 +13,53 @@ function AddBook() {
   image: null
   });
 
-  const [message, setMessage] = useState("");
+  const [preview, setPreview] = useState("");
+ 
 
-  const handleChange = (e) => {
+ const handleChange = (e) => {
 
   const { name, value, files } = e.target;
 
-  setFormData({
-    ...formData,
-    [name]: files ? files[0] : value
+  if (files) {
+
+    setFormData({
+      ...formData,
+      image: files[0]
+    });
+
+    setPreview(
+      URL.createObjectURL(files[0])
+    );
+
+  } else {
+
+    const handleChange = (e) => {
+
+  const { name, value, files } = e.target;
+
+  if (files) {
+
+    setFormData({
+      ...formData,
+      image: files[0]
+    });
+
+    setPreview(
+      URL.createObjectURL(files[0])
+    );
+
+  } else {
+
+    setFormData({
+      ...formData,
+      [name]: value
   });
+
+  }
+
+};
+
+  }
 
 };
 
@@ -62,9 +99,9 @@ function AddBook() {
           }
         );
 
-      setMessage(
-        response.data.message
-      );
+      toast.success(
+  response.data.message
+);
 
       setFormData({
         title: "",
@@ -78,7 +115,7 @@ function AddBook() {
 
     } catch (error) {
 
-      setMessage(
+      toast.error(
         error.response?.data?.message ||
         "Failed to add book"
       );
@@ -87,78 +124,127 @@ function AddBook() {
   };
 
   return (
-    <div className="auth-container">
+    
+    <div className="add-book-page">
 
-      <div className="auth-card">
+  <div className="add-book-header">
 
-        <h1>Add New Book</h1>
+    <h1>Add New Book</h1>
 
-        <form onSubmit={handleSubmit}>
+    <p>
+      Upload a new book to your collection
+    </p>
 
-          <input
-            name="title"
-            placeholder="Title"
-            value={formData.title}
-            onChange={handleChange}
-          />
+  </div>
 
-          <input
-            name="author"
-            placeholder="Author"
-            value={formData.author}
-            onChange={handleChange}
-          />
+  <form
+    onSubmit={handleSubmit}
+    className="add-book-form"
+  >
 
-          <input
-            name="price"
-            placeholder="Price"
-            value={formData.price}
-            onChange={handleChange}
-          />
+    <div className="book-form-card">
 
-          <input
-            name="language"
-            placeholder="Language"
-            value={formData.language}
-            onChange={handleChange}
-          />
+      <h2>Book Information</h2>
 
-          <input
-            name="stock"
-            placeholder="Stock"
-            value={formData.stock}
-            onChange={handleChange}
-          />
+      <div className="form-grid">
 
-          <textarea
-            name="desc"
-            placeholder="Description"
-            value={formData.desc}
-            onChange={handleChange}
-          />
+        <input
+          name="title"
+          placeholder="Book Title"
+          value={formData.title}
+          onChange={handleChange}
+        />
 
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleChange}
-          />
+        <input
+          name="author"
+          placeholder="Author"
+          value={formData.author}
+          onChange={handleChange}
+        />
 
-          <button type="submit">
-            Add Book
-          </button>
+        <input
+          name="price"
+          placeholder="Price"
+          value={formData.price}
+          onChange={handleChange}
+        />
 
-        </form>
-
-        {message && (
-          <p className="auth-message">
-            {message}
-          </p>
-        )}
+        <input
+          name="language"
+          placeholder="Language"
+          value={formData.language}
+          onChange={handleChange}
+        />
 
       </div>
 
+      <input
+        name="stock"
+        placeholder="Stock Quantity"
+        value={formData.stock}
+        onChange={handleChange}
+      />
+
+      <textarea
+        name="desc"
+        placeholder="Book Description"
+        value={formData.desc}
+        onChange={handleChange}
+      />
+
     </div>
+
+    <div className="upload-card">
+
+      <h2>Book Cover</h2>
+
+      <label className="upload-box">
+
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          onChange={handleChange}
+          hidden
+        />
+
+        {
+          preview ? (
+            <img
+              src={preview}
+              alt="preview"
+              className="preview-image"
+            />
+          ) : (
+            <>
+              <span className="upload-icon">
+                📚
+              </span>
+
+              <p>
+                Click to Upload Cover
+              </p>
+            </>
+          )
+        }
+
+      </label>
+
+    </div>
+
+    <button
+      type="submit"
+      className="submit-book-btn"
+    >
+      Add Book
+    </button>
+
+    
+
+  </form>
+
+</div>
+
   );
 }
 
