@@ -3,15 +3,10 @@ import { Link } from "react-router-dom";
 function Home() {
   return (
     <div>
-
       {/* Hero Section */}
       <section className="hero-v2 container">
-
         <div className="hero-content">
-
-          <span className="hero-badge">
-            📚 Trusted by Book Lovers
-          </span>
+          <span className="hero-badge">Trusted by Book Lovers</span>
 
           <h1>
             Find Your Next
@@ -19,19 +14,15 @@ function Home() {
           </h1>
 
           <p>
-            Discover bestselling books, explore
-            world-class authors, and build your
-            personal library with ease.
+            Discover bestselling books, explore world-class authors, and build
+            your personal library with ease.
           </p>
 
           <Link to="/books">
-            <button className="hero-btn">
-              Explore Collection
-            </button>
+            <button className="hero-btn">Explore Collection</button>
           </Link>
 
           <div className="hero-stats">
-
             <div>
               <h3>500+</h3>
               <p>Books</p>
@@ -46,13 +37,10 @@ function Home() {
               <h3>1000+</h3>
               <p>Readers</p>
             </div>
-
           </div>
-
         </div>
 
         <div className="hero-image-area">
-
           <div className="hero-main-book">
             <img
               src="https://images.unsplash.com/photo-1544947950-fa07a98d237f"
@@ -60,143 +48,98 @@ function Home() {
             />
           </div>
 
-          <div className="floating-review">
-            ⭐ 4.9 Rating
-          </div>
+          <div className="floating-review">⭐ 4.9 Rating</div>
 
-          <div className="floating-best">
-            🔥 Best Sellers
-          </div>
-
+          <div className="floating-best">🔥 Best Sellers</div>
         </div>
-
       </section>
 
       {/* Featured Books */}
 
       <section className="featured-section">
-
         <div className="container">
-
           <h2>Featured Books</h2>
 
-          <p>
-            Explore our most popular books.
-          </p>
+          <p>Explore our most popular books.</p>
 
           <div className="featured-grid">
+            <Link to="/books" className="feature-card-link">
+              <div className="feature-card">Self Development</div>
+            </Link>
 
-            <div className="feature-card">
-              📖 Self Development
-            </div>
+            <Link to="/books" className="feature-card-link">
+              <div className="feature-card">Finance</div>
+            </Link>
 
-            <div className="feature-card">
-              💰 Finance
-            </div>
+            <Link to="/books" className="feature-card-link">
+              <div className="feature-card">Programming</div>
+            </Link>
 
-            <div className="feature-card">
-              💻 Programming
-            </div>
-
-            <div className="feature-card">
-              🚀 Productivity
-            </div>
-
+            <Link to="/books" className="feature-card-link">
+              <div className="feature-card">Productivity</div>
+            </Link>
           </div>
-
         </div>
-
       </section>
 
       {/* Why Choose Us */}
 
       <section className="why-section">
-
         <div className="container">
-
           <h2>Why Readers Love Us</h2>
 
           <div className="why-grid">
-
             <div className="why-card">
               📚
               <h3>Wide Collection</h3>
-              <p>
-                Discover books from every genre.
-              </p>
+              <p>Discover books from every genre.</p>
             </div>
 
             <div className="why-card">
-              ⚡
-              <h3>Fast Experience</h3>
-              <p>
-                Simple and smooth browsing.
-              </p>
+              ⚡<h3>Fast Experience</h3>
+              <p>Simple and smooth browsing.</p>
             </div>
 
             <div className="why-card">
               🔒
               <h3>Secure Orders</h3>
-              <p>
-                Protected login and ordering.
-              </p>
+              <p>Protected login and ordering.</p>
             </div>
-
           </div>
-
         </div>
-
       </section>
 
       <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-brand">
+            <h2>BookStore</h2>
 
-  <div className="footer-container">
+            <p>
+              Discover your next favorite book with our growing collection of
+              programming, finance, productivity, and self-development titles.
+            </p>
+          </div>
 
-    <div className="footer-brand">
+          <div className="footer-section">
+            <h4>Quick Links</h4>
 
-      <h2>📚 BookStore</h2>
+            <a href="/">Home</a>
+            <a href="/books">Books</a>
+            <a href="/orders">My Orders</a>
+          </div>
 
-      <p>
-        Discover your next favorite book with our
-        growing collection of programming,
-        finance, productivity, and self-development
-        titles.
-      </p>
+          <div className="footer-section">
+            <h4>Contact</h4>
 
-    </div>
+            <p>support@bookstore.com</p>
+            <p>Available 24/7</p>
+          </div>
+        </div>
 
-    <div className="footer-section">
-
-      <h4>Quick Links</h4>
-
-      <a href="/">Home</a>
-      <a href="/books">Books</a>
-      <a href="/orders">My Orders</a>
-
-    </div>
-
-    <div className="footer-section">
-
-      <h4>Contact</h4>
-
-      <p>support@bookstore.com</p>
-      <p>Available 24/7</p>
-
-    </div>
-
-  </div>
-
-  <div className="footer-bottom">
-
-    <p>
-      © 2026 BookStore • Built with React,
-      Node.js & MongoDB
-    </p>
-
-  </div>
-
-</footer>
-
+        <div className="footer-bottom">
+          <p>© 2026 BookStore • Built with React, Node.js & MongoDB</p>
+        </div>
+      </footer>
     </div>
   );
 }

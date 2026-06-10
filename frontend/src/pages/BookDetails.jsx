@@ -14,6 +14,7 @@ function BookDetails() {
   useEffect(() => {
     fetchBook();
   }, []);
+  
 
   const fetchBook = async () => {
     try {
@@ -29,7 +30,52 @@ function BookDetails() {
     return <Loader />;
   }
 
-  const handleBuyNow = async () => {
+ const handleBuyNow = async () => {
+
+  const token =
+    localStorage.getItem("token");
+
+  if (!token) {
+
+    navigate("/login");
+
+    return;
+
+  }
+
+  try {
+
+    await api.post(
+      "/cart/add",
+      {
+        bookId: book._id,
+      },
+      {
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+        },
+      }
+    );
+
+    toast.success(
+      "Proceeding to checkout"
+    );
+
+    navigate("/checkout");
+
+  } catch (error) {
+
+    toast.error(
+      error.response?.data?.message ||
+      "Something went wrong"
+    );
+
+  }
+
+};
+
+  const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -39,14 +85,9 @@ function BookDetails() {
 
     try {
       const response = await api.post(
-        "/order/placeorder",
+        "/cart/add",
         {
-          books: [
-            {
-              bookId: book._id,
-              quantity: 1,
-            },
-          ],
+          bookId: book._id,
         },
         {
           headers: {
@@ -55,9 +96,9 @@ function BookDetails() {
         },
       );
 
-      toast.success(response.data.message);
+      toast.success(`"${book.title}" added to cart 🛒`);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Order failed");
+      toast.error(error.response?.data?.message || "Failed to add to cart");
     }
   };
 
@@ -82,6 +123,8 @@ function BookDetails() {
       );
 
       toast.success(response.data.message);
+
+      window.dispatchEvent(new Event("wishlistUpdated"));
     } catch (error) {
       toast.error(error.response?.data?.message);
     }
@@ -132,6 +175,10 @@ function BookDetails() {
           <div className="action-buttons">
             <button className="buy-btn" onClick={handleBuyNow}>
               🛒 Buy Now
+            </button>
+
+            <button className="wishlist-btn" onClick={handleAddToCart}>
+              Add To Cart
             </button>
 
             <button className="wishlist-btn" onClick={handleWishlist}>

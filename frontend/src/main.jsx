@@ -14,7 +14,9 @@ import "./styles/orders.css";
 import "./styles/auth.css";
 import "./styles/addBook.css";
 import "./styles/loader.css";
-
+import "./styles/profile.css";
+import "./styles/checkout.css";
+import "./styles/cart.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <>

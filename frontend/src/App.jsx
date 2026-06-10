@@ -11,6 +11,10 @@ import Register from "./pages/Register";
 import Orders from "./pages/Orders";
 import NotFound from "./pages/NotFound";
 import Wishlist from "./pages/Wishlist";
+import Profile from "./pages/Profile";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+
 
 
 function App() {
@@ -28,6 +32,11 @@ function App() {
         <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>}/>
         <Route path="*" element={<NotFound />} />
         <Route path="/wishlist" element={<Wishlist />}/>
+        <Route path="/profile" element={<Profile />}/>
+        <Route path="/cart" element={<Cart />}/>
+        <Route path="/checkout" element={<Checkout />} />
+
+
       </Routes>
     </>
   );

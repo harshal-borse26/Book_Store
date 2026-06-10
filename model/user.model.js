@@ -37,6 +37,49 @@ const userSchema = new mongoose.Schema({
       ref: "Book",
     },
   ],
+  cart: [
+    {
+      book: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Book",
+      },
+      quantity: {
+        type: Number,
+        default: 1,
+      },
+    },
+  ],
+  address: {
+  fullName: {
+    type: String,
+    default: "",
+  },
+
+  phone: {
+    type: String,
+    default: "",
+  },
+
+  addressLine: {
+    type: String,
+    default: "",
+  },
+
+  city: {
+    type: String,
+    default: "",
+  },
+
+  state: {
+    type: String,
+    default: "",
+  },
+
+  pincode: {
+    type: String,
+    default: "",
+  },
+},
 });
 
 userSchema.pre("save", async function (next) {

@@ -21,23 +21,32 @@
 }
 
 .premium-order-card{
+
   background:white;
 
-  border-radius:28px;
+  border-radius:30px;
 
-  padding:30px;
+  padding:35px;
 
-  margin-bottom:30px;
+  margin-bottom:50px;
 
   box-shadow:
-  0 15px 40px rgba(15,23,42,.08);
+  0 20px 50px rgba(15,23,42,.08);
+
+  border:1px solid
+  rgba(15,23,42,.05);
 
   transition:.3s;
 }
 
 .premium-order-card:hover{
+
   transform:translateY(-4px);
+
+  box-shadow:
+  0 25px 60px rgba(15,23,42,.12);
 }
+
 
 .order-header-new{
   display:flex;
@@ -207,4 +216,216 @@
   transform:translateY(-3px);
 
   background:#d29b45;
+}
+
+.cart-summary{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  gap:20px;
+}
+
+@media(max-width:768px){
+
+  .cart-summary{
+
+    flex-direction:column;
+  }
+
+}
+
+.qty-box{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  margin-top:10px;
+}
+
+.qty-box button{
+
+  width:35px;
+  height:35px;
+
+  padding:0;
+
+  border:none;
+
+  border-radius:8px;
+
+  background:#0f172a;
+
+  color:white;
+
+  cursor:pointer;
+}
+
+.qty-box span{
+
+  min-width:20px;
+
+  text-align:center;
+
+  font-weight:600;
+}
+
+.order-address{
+
+  margin-top:25px;
+
+  padding-top:20px;
+
+  border-top:
+  1px solid #e2e8f0;
+}
+
+.order-address h4{
+
+  margin-bottom:12px;
+
+  color:#0f172a;
+}
+
+.order-address p{
+
+  color:#64748b;
+
+  margin-bottom:4px;
+}
+
+.cancel-order-btn{
+
+  display:block;
+
+  margin-top:12px;
+
+  width:100%;
+
+  background:#ef4444;
+
+  color:white;
+
+  border:none;
+
+  padding:10px 16px;
+
+  border-radius:12px;
+
+  cursor:pointer;
+
+  font-weight:600;
+
+  transition:.3s;
+}
+
+.cancel-order-btn:hover{
+
+  background:#dc2626;
+}
+
+
+/* ///////////////////////////////////////// */
+
+
+
+
+
+
+
+
+
+
+
+
+.order-section{
+
+  margin-top:30px;
+
+  padding-top:25px;
+
+  border-top:1px solid #edf2f7;
+}
+
+.section-title{
+
+  margin-bottom:20px;
+
+  font-size:1rem;
+
+  font-weight:700;
+
+  color:#0f172a;
+}
+
+.order-address{
+
+  background:#f8f7f4;
+
+  padding:20px;
+
+  border-radius:18px;
+
+  line-height:1.9;
+}
+
+.order-address p{
+
+  color:#475569;
+}
+
+
+.status-pill{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  min-width:130px;
+}
+
+
+@media(max-width:768px){
+
+  .order-header-new{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:20px;
+  }
+
+  .ordered-book-card{
+
+    flex-direction:column;
+
+    text-align:center;
+  }
+
+  .ordered-book-image{
+
+    width:140px;
+
+    height:200px;
+  }
+}
+
+.ordered-books{
+
+  background:#fafafa;
+
+  border-radius:20px;
+
+  padding:20px;
+
+  margin-top:25px;
 }

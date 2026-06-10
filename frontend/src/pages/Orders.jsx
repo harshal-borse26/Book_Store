@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import Loader from "../components/Loader";
+import toast from "react-hot-toast";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -25,6 +26,28 @@ function Orders() {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const cancelOrder = async (orderId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await api.put(
+        `/order/cancel/${orderId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      toast.success(response.data.message);
+
+      fetchOrders();
+    } catch (error) {
+      toast.error(error.response?.data?.message);
     }
   };
 
@@ -59,36 +82,80 @@ function Orders() {
           <div key={order._id} className="premium-order-card">
             <div className="order-header-new">
               <div>
-                <h3>Order #{order._id.slice(-6)}</h3>
+                <h3>
+                  Order #{order._id.slice(-6)}
+                  <p>{new Date(order.createdAt).toLocaleDateString()}</p>
+                </h3>
 
                 <p>Total Amount</p>
 
                 <h2>₹{order.totalPrice}</h2>
               </div>
 
-              <span className={`status-pill ${order.status}`}>
-                {order.status}
-              </span>
+              <div>
+                <span className={`status-pill ${order.status}`}>
+                  {order.status === "placed"
+                    ? "📦 Placed"
+                    : order.status === "shipped"
+                      ? "🚚 Shipped"
+                      : order.status === "delivered"
+                        ? "✅ Delivered"
+                        : "❌ Cancelled"}
+                </span>
+
+                {order.status === "placed" && (
+                  <button
+                    className="cancel-order-btn"
+                    onClick={() => cancelOrder(order._id)}
+                  >
+                    Cancel Order
+                  </button>
+                )}
+              </div>
             </div>
 
-            <div className="ordered-books">
-              {order.book.map((book) => (
-                <div key={book._id} className="ordered-book-card">
-                  <img
-                    src={book.imageUrl}
-                    alt={book.title}
-                    className="ordered-book-image"
-                  />
+            <div className="order-section">
+              <h4 className="section-title">Books Purchased</h4>
 
-                  <div className="ordered-book-info">
-                    <h3>{book.title}</h3>
+              <div className="ordered-books">
+                {order.books.map((item) => (
+                  <div key={item.book._id} className="ordered-book-card">
+                    <img
+                      src={item.book.imageUrl}
+                      alt={item.book.title}
+                      className="ordered-book-image"
+                    />
 
-                    <p>{book.author}</p>
+                    <div className="ordered-book-info">
+                      <h3>{item.book.title}</h3>
 
-                    <h4>₹{book.price}</h4>
+                      <p>{item.book.author}</p>
+
+                      <p>Quantity: {item.quantity}</p>
+
+                      <h4>₹{item.book.price}</h4>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+
+            <div className="order-section">
+              <h4 className="section-title">📍 Delivery Address</h4>
+
+              <div className="order-address">
+                <p>{order.address?.fullName}</p>
+
+                <p>{order.address?.phone}</p>
+
+                <p>{order.address?.addressLine}</p>
+
+                <p>
+                  {order.address?.city}, {order.address?.state}
+                </p>
+
+                <p>{order.address?.pincode}</p>
+              </div>
             </div>
           </div>
         ))
