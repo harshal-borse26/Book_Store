@@ -9,25 +9,18 @@ function Navbar() {
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-  if (!user) return;
+    if (!user) return;
 
-  fetchCounts();
-
-  const updateCounts = () => {
     fetchCounts();
-  };
 
-  window.addEventListener(
-    "wishlistUpdated",
-    updateCounts
-  );
+    const updateCounts = () => {
+      fetchCounts();
+    };
 
-  return () =>
-    window.removeEventListener(
-      "wishlistUpdated",
-      updateCounts
-    );
-}, []);
+    window.addEventListener("wishlistUpdated", updateCounts);
+
+    return () => window.removeEventListener("wishlistUpdated", updateCounts);
+  }, []);
 
   const fetchCounts = async () => {
     try {
@@ -105,7 +98,14 @@ function Navbar() {
 
               <Link to="/orders">Orders</Link>
 
-              {user.role === "admin" && <Link to="/add-book">Add Book</Link>}
+              {user.role === "admin" && (
+                <>
+                  <Link to="/admin">Dashboard</Link>
+                  <Link to="/admin/orders">Manage Orders</Link>
+                  <Link to="/admin/books">Manage Books</Link>
+                  <Link to="/add-book">Add Book</Link>
+                </>
+              )}
 
               <div className="user-dropdown">
                 <button

@@ -25,7 +25,7 @@ export const signup = async (req, res) => {
         }
 
         const newUser = await User.create({
-            username, email, password, role
+            username, email, password, role:"user" 
         })
 
         const token = generateToken(newUser._id, newUser.role)

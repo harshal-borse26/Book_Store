@@ -429,3 +429,23 @@
 
   margin-top:25px;
 }
+
+.admin-actions{
+
+  display:flex;
+
+  gap:15px;
+
+  margin-top:25px;
+}
+
+.admin-actions button{
+
+  padding:12px 20px;
+
+  border:none;
+
+  border-radius:12px;
+
+  cursor:pointer;
+}

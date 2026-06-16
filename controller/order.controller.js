@@ -30,6 +30,86 @@ export const getOrderHistory = async (req, res) => {
   }
 };
 
+export const getAllOrders = async (req, res) => {
+
+  try {
+
+    const orders = await Order.find()
+      .populate("user", "username email")
+      .populate(
+        "books.book",
+        "title imageUrl"
+      )
+      .sort({
+        createdAt: -1
+      });
+
+    res.status(200).json({
+      success: true,
+      orders
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server Error"
+    });
+
+  }
+
+};
+
+
+export const updateOrderStatus =
+  async (req, res) => {
+
+  try {
+
+    const { orderId } =
+      req.params;
+
+    const { status } =
+      req.body;
+
+    const order =
+      await Order.findById(
+        orderId
+      );
+
+    if (!order) {
+
+      return res.status(404).json({
+        success:false,
+        message:"Order not found"
+      });
+
+    }
+
+    order.status = status;
+
+    await order.save();
+
+    res.status(200).json({
+      success:true,
+      message:"Order updated"
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      success:false,
+      message:"Server Error"
+    });
+
+  }
+
+};
+
 export const cancelOrder = async (req, res) => {
   try {
 

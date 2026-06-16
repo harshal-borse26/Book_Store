@@ -83,3 +83,78 @@ export const getBookById = async (req, res) => {
         })
     }
 }
+
+export const deleteBook =
+  async (req, res) => {
+
+  try {
+
+    const { id } =
+      req.params;
+
+    const book =
+      await Book.findByIdAndDelete(
+        id
+      );
+
+    if (!book) {
+
+      return res.status(404).json({
+        success:false,
+        message:"Book not found"
+      });
+
+    }
+
+    res.status(200).json({
+      success:true,
+      message:"Book deleted"
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      success:false,
+      message:"Server Error"
+    });
+
+  }
+
+};
+
+export const updateBook =
+  async (req, res) => {
+
+  try {
+
+    const { id } =
+      req.params;
+
+    const updatedBook =
+      await Book.findByIdAndUpdate(
+        id,
+        req.body,
+        {
+          new:true
+        }
+      );
+
+    res.status(200).json({
+      success:true,
+      book:updatedBook
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      success:false,
+      message:"Server Error"
+    });
+
+  }
+
+};

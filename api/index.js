@@ -8,6 +8,7 @@ import cors from "cors";
 import wishlistRoutes from "../routes/wishlist.routes.js";
 import profileRoutes from "../routes/profile.routes.js";
 import cartRoutes from "../routes/cart.routes.js";
+import adminRoutes from "../routes/admin.route.js";
 
 const app = express();
 app.use(cors());
@@ -28,6 +29,7 @@ app.use("/api/order", orderRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running at ${PORT}`);

@@ -33,31 +33,10 @@ function AddBook() {
 
   } else {
 
-    const handleChange = (e) => {
-
-  const { name, value, files } = e.target;
-
-  if (files) {
-
-    setFormData({
-      ...formData,
-      image: files[0]
-    });
-
-    setPreview(
-      URL.createObjectURL(files[0])
-    );
-
-  } else {
-
     setFormData({
       ...formData,
       [name]: value
-  });
-
-  }
-
-};
+    });
 
   }
 
