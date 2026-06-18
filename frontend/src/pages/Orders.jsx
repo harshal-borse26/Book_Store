@@ -118,25 +118,27 @@ function Orders() {
               <h4 className="section-title">Books Purchased</h4>
 
               <div className="ordered-books">
-                {order.books.map((item) => (
-                  <div key={item.book._id} className="ordered-book-card">
-                    <img
-                      src={item.book.imageUrl}
-                      alt={item.book.title}
-                      className="ordered-book-image"
-                    />
+                {order.books
+                  .filter((item) => item.book)
+                  .map((item) => (
+                    <div key={item.book._id} className="ordered-book-card">
+                      <img
+                        src={item.book?.imageUrl}
+                        alt={item.book.title}
+                        className="ordered-book-image"
+                      />
 
-                    <div className="ordered-book-info">
-                      <h3>{item.book.title}</h3>
+                      <div className="ordered-book-info">
+                        <h3>{item.book.title}</h3>
 
-                      <p>{item.book.author}</p>
+                        <p>{item.book.author}</p>
 
-                      <p>Quantity: {item.quantity}</p>
+                        <p>Quantity: {item.quantity}</p>
 
-                      <h4>₹{item.book.price}</h4>
+                        <h4>₹{item.book.price}</h4>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
 

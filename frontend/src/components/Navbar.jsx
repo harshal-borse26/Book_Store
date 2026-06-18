@@ -26,27 +26,25 @@ function Navbar() {
     try {
       const token = localStorage.getItem("token");
 
-      const wishlistResponse = await fetch(
-        "http://localhost:3000/api/wishlist",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      const wishlistData = await wishlistResponse.json();
-      console.log("Wishlist Data:", wishlistData);
-
-      setWishlistCount(wishlistData.wishlist?.length || 0);
-      const cartResponse = await fetch("http://localhost:3000/api/cart", {
+      const wishlistResponse = await api.get("/wishlist", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      const cartData = await cartResponse.json();
+      const wishlistData = wishlistResponse.data;
 
+      console.log("Wishlist Data:", wishlistData);
+
+      setWishlistCount(wishlistData.wishlist?.length || 0);
+
+      const cartResponse = await api.get("/cart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const cartData = cartResponse.data;
       setCartCount(cartData.cart?.length || 0);
     } catch (error) {
       console.error(error);
@@ -98,15 +96,6 @@ function Navbar() {
 
               <Link to="/orders">Orders</Link>
 
-              {user.role === "admin" && (
-                <>
-                  <Link to="/admin">Dashboard</Link>
-                  <Link to="/admin/orders">Manage Orders</Link>
-                  <Link to="/admin/books">Manage Books</Link>
-                  <Link to="/add-book">Add Book</Link>
-                </>
-              )}
-
               <div className="user-dropdown">
                 <button
                   className="user-btn"
@@ -128,6 +117,36 @@ function Navbar() {
                     <Link to="/orders" onClick={() => setShowMenu(false)}>
                       Orders
                     </Link>
+
+                    {user.role === "admin" && (
+                      <>
+                        <hr />
+
+                        <Link to="/admin" onClick={() => setShowMenu(false)}>
+                          Admin Dashboard
+                        </Link>
+
+                        <Link
+                          to="/admin/orders"
+                          onClick={() => setShowMenu(false)}
+                        >
+                          Manage Orders
+                        </Link>
+
+                        <Link
+                          to="/admin/books"
+                          onClick={() => setShowMenu(false)}
+                        >
+                          Manage Books
+                        </Link>
+
+                        <Link to="/add-book" onClick={() => setShowMenu(false)}>
+                          Add Book
+                        </Link>
+                      </>
+                    )}
+
+                    <hr />
 
                     <button onClick={handleLogout}>Logout</button>
                   </div>
