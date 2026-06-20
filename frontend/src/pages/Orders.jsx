@@ -94,13 +94,46 @@ function Orders() {
 
               <div>
                 <span className={`status-pill ${order.status}`}>
-                  {order.status === "placed"
-                    ? "📦 Placed"
-                    : order.status === "shipped"
-                      ? "🚚 Shipped"
-                      : order.status === "delivered"
-                        ? "✅ Delivered"
-                        : "❌ Cancelled"}
+                  <div className="tracking-container">
+                    <div className="tracking-steps">
+                      <div
+                        className={`step ${
+                          order.status === "placed" ||
+                          order.status === "shipped" ||
+                          order.status === "delivered"
+                            ? "active"
+                            : ""
+                        }`}
+                      >
+                        📦 Placed
+                      </div>
+
+                      <div
+                        className={`step ${
+                          order.status === "shipped" ||
+                          order.status === "delivered"
+                            ? "active"
+                            : ""
+                        }`}
+                      >
+                        🚚 Shipped
+                      </div>
+
+                      <div
+                        className={`step ${
+                          order.status === "delivered" ? "active" : ""
+                        }`}
+                      >
+                        ✅ Delivered
+                      </div>
+                    </div>
+
+                    <div className="tracking-bar">
+                      <div
+                        className={`tracking-progress ${order.status}`}
+                      ></div>
+                    </div>
+                  </div>
                 </span>
 
                 {order.status === "placed" && (

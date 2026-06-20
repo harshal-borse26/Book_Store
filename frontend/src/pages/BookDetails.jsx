@@ -9,12 +9,16 @@ function BookDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [rating, setRating] = useState(5);
+  const [reviews, setReviews] = useState([]);
+  const [comment, setComment] = useState("");
+
   const [book, setBook] = useState(null);
 
   useEffect(() => {
     fetchBook();
-  }, []);
-  
+    fetchReviews();
+  }, [id]);
 
   const fetchBook = async () => {
     try {
@@ -25,55 +29,93 @@ function BookDetails() {
       console.error(error);
     }
   };
+  const fetchReviews = async () => {
+    try {
+      const response = await api.get(`/books/${id}/reviews`);
 
+      setReviews(response.data.reviews);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   if (!book) {
     return <Loader />;
   }
 
- const handleBuyNow = async () => {
+  const handleBuyNow = async () => {
+    const token = localStorage.getItem("token");
 
-  const token =
-    localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
 
-  if (!token) {
+      return;
+    }
 
-    navigate("/login");
-
-    return;
-
-  }
-
-  try {
-
-    await api.post(
-      "/cart/add",
-      {
-        bookId: book._id,
-      },
-      {
-        headers: {
-          Authorization:
-            `Bearer ${token}`,
+    try {
+      await api.post(
+        "/cart/add",
+        {
+          bookId: book._id,
         },
-      }
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-    toast.success(
-      "Proceeding to checkout"
-    );
+      toast.success("Proceeding to checkout");
 
-    navigate("/checkout");
+      navigate("/checkout");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    }
+  };
 
-  } catch (error) {
+  const submitReview = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-    toast.error(
-      error.response?.data?.message ||
-      "Something went wrong"
-    );
+      const response = await api.post(
+        `/books/${id}/review`,
+        {
+          rating,
+          comment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-  }
+      toast.success(response.data.message);
 
-};
+      fetchReviews();
+
+      setComment("");
+
+      setRating(5);
+    } catch (error) {
+      toast.error(error.response?.data?.message);
+    }
+  };
+
+  const averageRating =
+    reviews.length > 0
+      ? (
+          reviews.reduce((sum, review) => sum + review.rating, 0) /
+          reviews.length
+        ).toFixed(1)
+      : 0;
+
+  const ratingCounts = {
+    5: reviews.filter((r) => r.rating === 5).length,
+    4: reviews.filter((r) => r.rating === 4).length,
+    3: reviews.filter((r) => r.rating === 3).length,
+    2: reviews.filter((r) => r.rating === 2).length,
+    1: reviews.filter((r) => r.rating === 1).length,
+  };
 
   const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
@@ -190,6 +232,120 @@ function BookDetails() {
             <h3>About This Book</h3>
 
             <p>{book.desc}</p>
+          </div>
+
+          <div className="rating-summary">
+
+  <div className="rating-left">
+
+    <h2>
+      ⭐ {averageRating}
+    </h2>
+
+    <p>
+      {reviews.length} Reviews
+    </p>
+
+  </div>
+
+  <div className="rating-right">
+
+    {[5,4,3,2,1].map(star => (
+
+      <div
+        key={star}
+        className="rating-row"
+      >
+
+        <span>
+          {star} ★
+        </span>
+
+        <div className="progress">
+
+          <div
+            className="progress-fill"
+            style={{
+              width: `${
+                reviews.length
+                  ? (ratingCounts[star] /
+                      reviews.length) *
+                    100
+                  : 0
+              }%`,
+            }}
+          />
+
+        </div>
+
+        <span>
+          {ratingCounts[star]}
+        </span>
+
+      </div>
+
+    ))}
+
+  </div>
+
+</div>
+
+          <div className="review-form">
+            <h2>Write a Review</h2>
+
+            <div className="star-selector">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span
+                  key={star}
+                  onClick={() => setRating(star)}
+                  className={star <= rating ? "active-star" : ""}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+
+            <textarea
+              placeholder="Write your review..."
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+
+            <button onClick={submitReview} className="buy-btn">
+              Submit Review
+            </button>
+          </div>
+
+          <div className="reviews-section">
+            <h2>Customer Reviews</h2>
+
+            {reviews.length === 0 ? (
+              <p>No reviews yet.</p>
+            ) : (
+              reviews.map((review) => (
+                <div className="review-card">
+                  <div className="review-header">
+                    <div>
+                      <h4>👤 {review.username}</h4>
+
+                      <span>{"⭐".repeat(review.rating)}</span>
+                    </div>
+
+                    {review.verifiedPurchase && (
+                      <span className="verified-badge">
+                        ✔ Verified Purchase
+                      </span>
+                    )}
+                  </div>
+
+                  <p>{review.comment}</p>
+
+                  <small>
+                    {new Date(review.createdAt).toLocaleDateString()}
+                  </small>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
