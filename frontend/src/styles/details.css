@@ -317,3 +317,63 @@
   height: 100%;
   background: #f59e0b;
 }
+
+.review-lock{
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#c2410c;
+  padding:16px;
+  border-radius:12px;
+  margin:20px 0;
+  text-align:center;
+  font-weight:600;
+}
+
+.recommend-section {
+  margin-top: 50px;
+}
+
+.recommend-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(200px, 1fr));
+
+  gap: 20px;
+}
+
+.recommend-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+
+  transition: 0.3s;
+  box-shadow:
+    0 4px 15px rgba(0,0,0,0.08);
+}
+
+.recommend-card:hover {
+  transform: translateY(-5px);
+}
+
+.recommend-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.recommend-card h4 {
+  padding: 10px;
+  margin: 0;
+}
+
+.recommend-card p {
+  padding: 0 10px;
+  color: #666;
+}
+
+.recommend-card strong {
+  display: block;
+  padding: 10px;
+  color: #d89b43;
+}

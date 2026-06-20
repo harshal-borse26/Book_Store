@@ -158,3 +158,49 @@ export const updateBook =
   }
 
 };
+
+export const getRecommendedBooks = async (
+  req,
+  res
+) => {
+  try {
+
+    const currentBook =
+      await Book.findById(
+        req.params.id
+      );
+
+    if (!currentBook) {
+      return res.status(404).json({
+        success: false,
+        message: "Book not found",
+      });
+    }
+
+    const recommendations =
+      await Book.find({
+        _id: {
+          $ne: currentBook._id,
+        },
+
+        language:
+          currentBook.language,
+      })
+        .limit(4);
+
+    res.status(200).json({
+      success: true,
+      recommendations,
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+
+  }
+};

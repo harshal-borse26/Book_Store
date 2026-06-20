@@ -12,12 +12,33 @@ function BookDetails() {
   const [rating, setRating] = useState(5);
   const [reviews, setReviews] = useState([]);
   const [comment, setComment] = useState("");
+  const [canReview, setCanReview] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
 
   const [book, setBook] = useState(null);
+  const checkCanReview = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) return;
+
+      const response = await api.get(`/books/${id}/can-review`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setCanReview(response.data.canReview);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     fetchBook();
     fetchReviews();
+    checkCanReview();
+    fetchRecommendations();
   }, [id]);
 
   const fetchBook = async () => {
@@ -38,6 +59,17 @@ function BookDetails() {
       console.error(error);
     }
   };
+
+  const fetchRecommendations = async () => {
+    try {
+      const response = await api.get(`/books/${id}/recommendations`);
+
+      setRecommendations(response.data.recommendations);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (!book) {
     return <Loader />;
   }
@@ -92,6 +124,8 @@ function BookDetails() {
       toast.success(response.data.message);
 
       fetchReviews();
+
+      await checkCanReview();
 
       setComment("");
 
@@ -228,93 +262,78 @@ function BookDetails() {
             </button>
           </div>
 
+           <div className="rating-summary">
+            <div className="rating-left">
+              <h2>⭐ {averageRating}</h2>
+
+              <p>{reviews.length} Reviews</p>
+            </div>
+
+            <div className="rating-right">
+              {[5, 4, 3, 2, 1].map((star) => (
+                <div key={star} className="rating-row">
+                  <span>{star} ★</span>
+
+                  <div className="progress">
+                    <div
+                      className="progress-fill"
+                      style={{
+                        width: `${
+                          reviews.length
+                            ? (ratingCounts[star] / reviews.length) * 100
+                            : 0
+                        }%`,
+                      }}
+                    />
+                  </div>
+
+                  <span>{ratingCounts[star]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="description-box">
             <h3>About This Book</h3>
 
             <p>{book.desc}</p>
           </div>
 
-          <div className="rating-summary">
+         
 
-  <div className="rating-left">
+          {canReview && (
+            <div className="review-form">
+              <h2>Write a Review</h2>
 
-    <h2>
-      ⭐ {averageRating}
-    </h2>
+              <div className="star-selector">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    onClick={() => setRating(star)}
+                    className={star <= rating ? "active-star" : ""}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
 
-    <p>
-      {reviews.length} Reviews
-    </p>
+              <textarea
+                placeholder="Write your review..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
 
-  </div>
-
-  <div className="rating-right">
-
-    {[5,4,3,2,1].map(star => (
-
-      <div
-        key={star}
-        className="rating-row"
-      >
-
-        <span>
-          {star} ★
-        </span>
-
-        <div className="progress">
-
-          <div
-            className="progress-fill"
-            style={{
-              width: `${
-                reviews.length
-                  ? (ratingCounts[star] /
-                      reviews.length) *
-                    100
-                  : 0
-              }%`,
-            }}
-          />
-
-        </div>
-
-        <span>
-          {ratingCounts[star]}
-        </span>
-
-      </div>
-
-    ))}
-
-  </div>
-
-</div>
-
-          <div className="review-form">
-            <h2>Write a Review</h2>
-
-            <div className="star-selector">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <span
-                  key={star}
-                  onClick={() => setRating(star)}
-                  className={star <= rating ? "active-star" : ""}
-                >
-                  ★
-                </span>
-              ))}
+              <button onClick={submitReview} className="buy-btn">
+                Submit Review
+              </button>
             </div>
+          )}
 
-            <textarea
-              placeholder="Write your review..."
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
-
-            <button onClick={submitReview} className="buy-btn">
-              Submit Review
-            </button>
-          </div>
+          {!canReview && (
+            <div className="review-lock">
+              📦 Purchase and receive this book to write a review.
+            </div>
+          )}
 
           <div className="reviews-section">
             <h2>Customer Reviews</h2>
@@ -323,10 +342,10 @@ function BookDetails() {
               <p>No reviews yet.</p>
             ) : (
               reviews.map((review) => (
-                <div className="review-card">
+                <div key={review._id} className="review-card">
                   <div className="review-header">
                     <div>
-                      <h4>👤 {review.username}</h4>
+                      <h4>👤 {review.user?.username || review.username}</h4>
 
                       <span>{"⭐".repeat(review.rating)}</span>
                     </div>
@@ -346,6 +365,28 @@ function BookDetails() {
                 </div>
               ))
             )}
+          </div>
+
+          <div className="recommend-section">
+            <h2>📚 You May Also Like</h2>
+
+            <div className="recommend-grid">
+              {recommendations.map((book) => (
+                <div
+                  key={book._id}
+                  className="recommend-card"
+                  onClick={() => navigate(`/book/${book._id}`)}
+                >
+                  <img src={book.imageUrl} alt={book.title} />
+
+                  <h4>{book.title}</h4>
+
+                  <p>{book.author}</p>
+
+                  <strong>₹{book.price}</strong>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -1,11 +1,24 @@
 import Review from "../model/review.model.js";
 import Book from "../model/book.model.js";
+import Order from "../model/order.model.js";
 
 export const addReview = async (req, res) => {
   try {
     const { rating, comment } = req.body;
 
     const { bookId } = req.params;
+    const purchasedBook = await Order.findOne({
+      user: req.user._id,
+      "books.book": bookId,
+      status: "delivered",
+    });
+
+    if (!purchasedBook) {
+      return res.status(403).json({
+        success: false,
+        message: "You can review only purchased books",
+      });
+    }
 
     const existingReview = await Review.findOne({
       user: req.user._id,
@@ -25,25 +38,20 @@ export const addReview = async (req, res) => {
       username: req.user.username,
       rating,
       comment,
+      verifiedPurchase: true,
     });
 
     const reviews = await Review.find({
-  book: bookId,
-});
+      book: bookId,
+    });
 
-const averageRating =
-  reviews.reduce(
-    (acc, item) => acc + item.rating,
-    0
-  ) / reviews.length;
+    const averageRating =
+      reviews.reduce((acc, item) => acc + item.rating, 0) / reviews.length;
 
-await Book.findByIdAndUpdate(
-  bookId,
-  {
-    averageRating,
-    totalReviews: reviews.length,
-  }
-);
+    await Book.findByIdAndUpdate(bookId, {
+      averageRating,
+      totalReviews: reviews.length,
+    });
 
     res.status(201).json({
       success: true,
@@ -58,7 +66,6 @@ await Book.findByIdAndUpdate(
     });
   }
 };
-
 
 export const getBookReviews = async (req, res) => {
   try {
@@ -82,16 +89,12 @@ export const getBookReviews = async (req, res) => {
   }
 };
 
-export const updateReview = async (
-  req,
-  res
-) => {
+export const updateReview = async (req, res) => {
   try {
-    const review =
-      await Review.findOne({
-        _id: req.params.reviewId,
-        user: req.user._id,
-      });
+    const review = await Review.findOne({
+      _id: req.params.reviewId,
+      user: req.user._id,
+    });
 
     if (!review) {
       return res.status(404).json({
@@ -99,22 +102,52 @@ export const updateReview = async (
       });
     }
 
-    review.rating =
-      req.body.rating;
+    review.rating = req.body.rating;
 
-    review.comment =
-      req.body.comment;
+    review.comment = req.body.comment;
 
     await review.save();
 
     res.json({
       success: true,
-      message:
-        "Review updated",
+      message: "Review updated",
     });
   } catch (error) {
     res.status(500).json({
       message: "Server Error",
     });
   }
+};
+
+export const canReviewBook =
+  async (req, res) => {
+
+  try {
+
+    const order =
+      await Order.findOne({
+
+        user: req.user._id,
+
+        "books.book":
+          req.params.bookId,
+
+        status: "delivered",
+
+      });
+
+    res.json({
+      success: true,
+      canReview: !!order,
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+
+  }
+
 };

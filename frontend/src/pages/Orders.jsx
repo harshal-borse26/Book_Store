@@ -80,71 +80,134 @@ function Orders() {
       ) : (
         orders.map((order) => (
           <div key={order._id} className="premium-order-card">
-            <div className="order-header-new">
-              <div>
-                <h3>
-                  Order #{order._id.slice(-6)}
-                  <p>{new Date(order.createdAt).toLocaleDateString()}</p>
-                </h3>
+<div className="order-header-new">
 
-                <p>Total Amount</p>
+  <div className="order-left">
 
-                <h2>₹{order.totalPrice}</h2>
+    <h3>
+      Order #{order._id.slice(-6)}
+    </h3>
+
+    <p className="order-date">
+      {new Date(order.createdAt).toLocaleDateString()}
+    </p>
+
+    <div className="order-total">
+      ₹{order.totalPrice}
+    </div>
+
+  </div>
+
+  <div className="order-right">
+
+    <div
+      className={`order-status-badge ${order.status}`}
+    >
+
+      {
+        order.status === "placed"
+          ? "📦 Placed"
+          : order.status === "shipped"
+          ? "🚚 Shipped"
+          : order.status === "delivered"
+          ? "✅ Delivered"
+          : "❌ Cancelled"
+      }
+
+    </div>
+
+    <div className="order-progress">
+
+      <div
+        className={`progress-step ${
+          ["placed","shipped","delivered"]
+          .includes(order.status)
+            ? "active"
+            : order.status === "cancelled"
+            ? "cancelled"
+            : ""
+        }`}
+      />
+
+      <div
+        className={`progress-step ${
+          ["shipped","delivered"]
+          .includes(order.status)
+            ? "active"
+            : ""
+        }`}
+      />
+
+      <div
+        className={`progress-step ${
+          order.status === "delivered"
+            ? "active"
+            : ""
+        }`}
+      />
+
+    </div>
+
+    {
+      order.status === "placed" && (
+
+        <button
+          className="cancel-order-btn"
+          onClick={() =>
+            cancelOrder(order._id)
+          }
+        >
+          Cancel Order
+        </button>
+
+      )
+    }
+
+  </div>
+
+</div>
+            <div className="order-timeline-card">
+              <h4>Order Progress</h4>
+
+              <div className="order-timeline">
+                <div
+                  className={`timeline-step ${
+                    ["placed", "shipped", "delivered"].includes(order.status)
+                      ? "completed"
+                      : ""
+                  }`}
+                >
+                  <div className="timeline-dot"></div>
+
+                  <span>Order Placed</span>
+                </div>
+
+                <div
+                  className={`timeline-step ${
+                    ["shipped", "delivered"].includes(order.status)
+                      ? "completed"
+                      : ""
+                  }`}
+                >
+                  <div className="timeline-dot"></div>
+
+                  <span>Shipped</span>
+                </div>
+
+                <div
+                  className={`timeline-step ${
+                    order.status === "delivered" ? "completed" : ""
+                  }`}
+                >
+                  <div className="timeline-dot"></div>
+
+                  <span>Delivered</span>
+                </div>
               </div>
 
-              <div>
-                <span className={`status-pill ${order.status}`}>
-                  <div className="tracking-container">
-                    <div className="tracking-steps">
-                      <div
-                        className={`step ${
-                          order.status === "placed" ||
-                          order.status === "shipped" ||
-                          order.status === "delivered"
-                            ? "active"
-                            : ""
-                        }`}
-                      >
-                        📦 Placed
-                      </div>
-
-                      <div
-                        className={`step ${
-                          order.status === "shipped" ||
-                          order.status === "delivered"
-                            ? "active"
-                            : ""
-                        }`}
-                      >
-                        🚚 Shipped
-                      </div>
-
-                      <div
-                        className={`step ${
-                          order.status === "delivered" ? "active" : ""
-                        }`}
-                      >
-                        ✅ Delivered
-                      </div>
-                    </div>
-
-                    <div className="tracking-bar">
-                      <div
-                        className={`tracking-progress ${order.status}`}
-                      ></div>
-                    </div>
-                  </div>
-                </span>
-
-                {order.status === "placed" && (
-                  <button
-                    className="cancel-order-btn"
-                    onClick={() => cancelOrder(order._id)}
-                  >
-                    Cancel Order
-                  </button>
-                )}
-              </div>
+              {order.status === "cancelled" && (
+                <div className="cancelled-order">❌ Order Cancelled</div>
+              )}
             </div>
 
             <div className="order-section">

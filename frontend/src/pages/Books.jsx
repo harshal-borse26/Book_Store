@@ -6,6 +6,9 @@ import Loader from "../components/Loader";
 function Books() {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
+  const [language, setLanguage] = useState("all");
+  const [priceRange, setPriceRange] = useState("all");
+  const [sortBy, setSortBy] = useState("default");
 
   useEffect(() => {
     fetchBooks();
@@ -21,11 +24,73 @@ function Books() {
     }
   };
 
-  const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(search.toLowerCase()),
+ let filteredBooks = books.filter((book) => {
+
+  const matchesSearch =
+    book.title
+      .toLowerCase()
+      .includes(
+        search.toLowerCase()
+      );
+
+  const matchesLanguage =
+    language === "all"
+      ? true
+      : book.language === language;
+
+  const matchesPrice =
+
+    priceRange === "all"
+
+      ? true
+
+      : priceRange === "below500"
+
+      ? book.price < 500
+
+      : priceRange === "500to1000"
+
+      ? book.price >= 500 &&
+        book.price <= 1000
+
+      : book.price > 1000;
+
+  return (
+    matchesSearch &&
+    matchesLanguage &&
+    matchesPrice
   );
 
-  
+});
+
+
+if (sortBy === "low-high") {
+
+  filteredBooks.sort(
+    (a, b) =>
+      a.price - b.price
+  );
+
+}
+
+if (sortBy === "high-low") {
+
+  filteredBooks.sort(
+    (a, b) =>
+      b.price - a.price
+  );
+
+}
+
+if (sortBy === "rating") {
+
+  filteredBooks.sort(
+    (a, b) =>
+      b.averageRating -
+      a.averageRating
+  );
+
+}
 
   return (
     <div className="container books-page">
@@ -51,15 +116,100 @@ function Books() {
         />
       </div>
 
+      <div className="filter-bar">
+
+  <select
+    value={language}
+    onChange={(e) =>
+      setLanguage(
+        e.target.value
+      )
+    }
+  >
+
+    <option value="all">
+      All Languages
+    </option>
+
+    <option value="English">
+      English
+    </option>
+
+    <option value="Hindi">
+      Hindi
+    </option>
+
+    <option value="Marathi">
+      Marathi
+    </option>
+
+  </select>
+
+  <select
+    value={priceRange}
+    onChange={(e) =>
+      setPriceRange(
+        e.target.value
+      )
+    }
+  >
+
+    <option value="all">
+      All Prices
+    </option>
+
+    <option value="below500">
+      Below ₹500
+    </option>
+
+    <option value="500to1000">
+      ₹500 - ₹1000
+    </option>
+
+    <option value="above1000">
+      Above ₹1000
+    </option>
+
+  </select>
+
+  <select
+    value={sortBy}
+    onChange={(e) =>
+      setSortBy(
+        e.target.value
+      )
+    }
+  >
+
+    <option value="default">
+      Sort By
+    </option>
+
+    <option value="low-high">
+      Price Low → High
+    </option>
+
+    <option value="high-low">
+      Price High → Low
+    </option>
+
+    <option value="rating">
+      Highest Rated
+    </option>
+
+  </select>
+
+</div>
+
       <div className="books-info">
         <div className="book-count">{filteredBooks.length} Books Available</div>
       </div>
 
-        <div className="books-grid">
-          {filteredBooks.map((book) => (
-            <BookCard key={book._id} book={book} />
-          ))}
-        </div>
+      <div className="books-grid">
+        {filteredBooks.map((book) => (
+          <BookCard key={book._id} book={book} />
+        ))}
+      </div>
     </div>
   );
 }
