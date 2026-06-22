@@ -8,6 +8,18 @@ function Navbar() {
   const user = JSON.parse(localStorage.getItem("user"));
   const [wishlistCount, setWishlistCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -68,7 +80,14 @@ function Navbar() {
           <h2>BookStore</h2>
         </Link>
 
-        <div className="nav-links">
+        <button
+          className="mobile-toggle"
+          onClick={() => setMobileMenu(!mobileMenu)}
+        >
+          ☰
+        </button>
+
+        <div className={`nav-links ${mobileMenu ? "active" : ""}`}>
           <Link to="/">Home</Link>
 
           <Link to="/books">Books</Link>
@@ -95,64 +114,72 @@ function Navbar() {
                 )}
               </Link>
 
-              <Link to="/orders">Orders</Link>
+              {!isMobile ? (
+                <div className="user-dropdown">
+                  <button
+                    className="user-btn"
+                    onClick={() => setShowMenu(!showMenu)}
+                  >
+                    👤 {user.username} ▼
+                  </button>
 
-              <div className="user-dropdown">
-                <button
-                  className="user-btn"
-                  onClick={() => setShowMenu(!showMenu)}
-                >
-                  👤 {user.username} ▼
-                </button>
+                  {showMenu && (
+                    <div className="dropdown-menu">
+                      <Link to="/profile" onClick={() => setShowMenu(false)}>
+                        Profile
+                      </Link>
 
-                {showMenu && (
-                  <div className="dropdown-menu">
-                    <Link to="/profile" onClick={() => setShowMenu(false)}>
-                      Profile
-                    </Link>
+                      <Link to="/orders" onClick={() => setShowMenu(false)}>
+                        Orders
+                      </Link>
 
-                    <Link to="/wishlist" onClick={() => setShowMenu(false)}>
-                      Wishlist
-                    </Link>
+                      <Link to="/wishlist" onClick={() => setShowMenu(false)}>
+                        Wishlist
+                      </Link>
 
-                    <Link to="/orders" onClick={() => setShowMenu(false)}>
-                      Orders
-                    </Link>
+                      {user.role === "admin" && (
+                        <>
+                          <hr />
 
-                    {user.role === "admin" && (
-                      <>
-                        <hr />
+                          <Link to="/admin">Dashboard</Link>
 
-                        <Link to="/admin" onClick={() => setShowMenu(false)}>
-                          Admin Dashboard
-                        </Link>
+                          <Link to="/admin/books">Manage Books</Link>
 
-                        <Link
-                          to="/admin/orders"
-                          onClick={() => setShowMenu(false)}
-                        >
-                          Manage Orders
-                        </Link>
+                          <Link to="/admin/orders">Manage Orders</Link>
 
-                        <Link
-                          to="/admin/books"
-                          onClick={() => setShowMenu(false)}
-                        >
-                          Manage Books
-                        </Link>
+                          <Link to="/add-book">Add Book</Link>
+                        </>
+                      )}
 
-                        <Link to="/add-book" onClick={() => setShowMenu(false)}>
-                          Add Book
-                        </Link>
-                      </>
-                    )}
+                      <hr />
 
-                    <hr />
+                      <button onClick={handleLogout}>Logout</button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <Link to="/profile">Profile</Link>
 
-                    <button onClick={handleLogout}>Logout</button>
-                  </div>
-                )}
-              </div>
+                  <Link to="/orders">Orders</Link>
+
+                  {user.role === "admin" && (
+                    <>
+                      <Link to="/admin">Dashboard</Link>
+
+                      <Link to="/admin/books">Manage Books</Link>
+
+                      <Link to="/admin/orders">Manage Orders</Link>
+
+                      <Link to="/add-book">Add Book</Link>
+                    </>
+                  )}
+
+                  <button className="mobile-logout" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </>
+              )}
             </>
           )}
         </div>

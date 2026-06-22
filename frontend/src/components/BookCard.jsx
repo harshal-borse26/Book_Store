@@ -1,55 +1,54 @@
 import { Link } from "react-router-dom";
 
 function BookCard({ book }) {
+  const rating = book.averageRating
+    ? Number(book.averageRating).toFixed(1)
+    : "4.2";
+
   return (
-  
-<Link
-  to={`/book/${book._id}`}
-  className="book-link"
->
+    <Link to={`/book/${book._id}`} className="book-link">
+      <article className="book-card-pro">
+        <div className="book-cover-pro">
+          <img
+            src={book.imageUrl}
+            alt={book.title}
+            className="book-cover-image-pro"
+          />
 
-  <div className="premium-book-card">
+          <div className="book-cover-overlay-pro" />
 
-    <div className="premium-book-cover">
-
-      {book.imageUrl ? (
-        <img
-          src={book.imageUrl}
-          alt={book.title}
-        />
-      ) : (
-        <div className="book-placeholder">
-          📚
+          <div className="book-rating-pill">
+            ⭐ {rating}
+          </div>
         </div>
-      )}
 
-    </div>
+        <div className="book-body-pro">
+          <div className="book-topline-pro">
+            <span className="book-language-pill">
+              {book.language}
+            </span>
 
-    <div className="premium-book-info">
+            <span className="book-reviews-text">
+              {book.totalReviews || 0} reviews
+            </span>
+          </div>
 
-      <h3>{book.title}</h3>
+          <h3 className="book-title-pro">{book.title}</h3>
 
-      <p>{book.author}</p>
+          <p className="book-author-pro">{book.author}</p>
 
-      <div className="premium-book-footer">
+          <div className="book-footer-pro">
+            <div>
+              <span className="book-price-label">Price</span>
+              <div className="book-price-pro">₹{book.price}</div>
+            </div>
 
-        <span>
-          ₹{book.price}
-        </span>
-
-        <span>
-          View →
-        </span>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</Link>
-
-);
+            <span className="book-arrow-pro">→</span>
+          </div>
+        </div>
+      </article>
+    </Link>
+  );
 }
 
 export default BookCard;

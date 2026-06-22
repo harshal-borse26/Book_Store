@@ -78,9 +78,12 @@ function Cart() {
 
   return (
     <div className="container orders-page">
-      <div className="orders-header">
-        <h1>Shopping Cart</h1>
-        <p>Review your selected books</p>
+      <div className="cart-header">
+        <span className="cart-tag">Your Cart</span>
+
+        <h1>Shopping Cart 🛒</h1>
+
+        <p>Review your selected books before checkout</p>
       </div>
 
       {cart.length === 0 ? (
@@ -94,7 +97,11 @@ function Cart() {
           <div className="cart-layout">
             <div className="cart-items">
               {cart.map((item) => (
-                <Link to={`/book/${item.book._id}`} className="cart-book-link">
+                <Link
+                  key={item.book._id}
+                  to={`/book/${item.book._id}`}
+                  className="cart-book-link"
+                >
                   <div className="cart-book-card">
                     <img
                       src={item.book.imageUrl}
@@ -110,10 +117,11 @@ function Cart() {
                       <div className="qty-box">
                         <button
                           onClick={(e) => {
-                            e.preventDefault();
+    e.preventDefault();
+    e.stopPropagation();
 
-                            removeBook(item.book._id);
-                          }}
+    updateQuantity(item.book._id, "decrease");
+  }}
                         >
                           -
                         </button>
@@ -121,9 +129,12 @@ function Cart() {
                         <span>{item.quantity}</span>
 
                         <button
-                          onClick={() =>
-                            updateQuantity(item.book._id, "increase")
-                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            updateQuantity(item.book._id, "increase");
+                          }}
                         >
                           +
                         </button>
@@ -132,7 +143,12 @@ function Cart() {
 
                     <button
                       className="remove-btn"
-                      onClick={() => removeBook(item.book._id)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        removeBook(item.book._id);
+                      }}
                     >
                       Remove
                     </button>
@@ -143,6 +159,8 @@ function Cart() {
 
             <div className="cart-summary-card">
               <h3>Order Summary</h3>
+
+              <p className="summary-subtitle">Review before checkout</p>
 
               <div className="summary-row">
                 <span>Books</span>

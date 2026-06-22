@@ -56,55 +56,90 @@ function Home() {
 
       {/* Featured Books */}
 
-      <section className="featured-section">
+      <section className="categories-section">
         <div className="container">
-          <h2>Featured Books</h2>
+          <div className="section-heading">
+            <span>Explore Categories</span>
+            <h2>Books For Every Goal</h2>
+            <p>
+              Curated collections designed to help you learn, grow and stay
+              ahead.
+            </p>
+          </div>
 
-          <p>Explore our most popular books.</p>
+          <div className="categories-grid">
+            <div className="category-card">
+              <div className="category-icon">💻</div>
+              <h3>Programming</h3>
+              <p>Master web development and software engineering.</p>
+            </div>
 
-          <div className="featured-grid">
-            <Link to="/books" className="feature-card-link">
-              <div className="feature-card">Self Development</div>
-            </Link>
+            <div className="category-card">
+              <div className="category-icon">💰</div>
+              <h3>Finance</h3>
+              <p>Build wealth and improve money management skills.</p>
+            </div>
 
-            <Link to="/books" className="feature-card-link">
-              <div className="feature-card">Finance</div>
-            </Link>
+            <div className="category-card">
+              <div className="category-icon">🚀</div>
+              <h3>Productivity</h3>
+              <p>Learn systems that help you achieve more.</p>
+            </div>
 
-            <Link to="/books" className="feature-card-link">
-              <div className="feature-card">Programming</div>
-            </Link>
-
-            <Link to="/books" className="feature-card-link">
-              <div className="feature-card">Productivity</div>
-            </Link>
+            <div className="category-card">
+              <div className="category-icon">🧠</div>
+              <h3>Self Growth</h3>
+              <p>Improve mindset, habits and personal success.</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Why Choose Us */}
 
-      <section className="why-section">
+      <section className="experience-section">
+        <div className="container experience-grid">
+          <div className="experience-content">
+            <span>Reading Experience</span>
+
+            <h2>More Than A Bookstore</h2>
+
+            <p>
+              Discover books that help you build skills, improve your career and
+              transform your thinking.
+            </p>
+
+            <ul>
+              <li>✓ Curated Collection</li>
+              <li>✓ Fast Checkout</li>
+              <li>✓ Secure Orders</li>
+              <li>✓ Personalized Experience</li>
+            </ul>
+          </div>
+
+          <div className="experience-image">
+            <img
+              src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da"
+              alt="Library"
+            />
+          </div>
+        </div>
+      </section>
+
+
+      <section className="cta-section">
         <div className="container">
-          <h2>Why Readers Love Us</h2>
+          <div className="cta-card">
+            <h2>Ready To Discover Your Next Favorite Book?</h2>
 
-          <div className="why-grid">
-            <div className="why-card">
-              📚
-              <h3>Wide Collection</h3>
-              <p>Discover books from every genre.</p>
-            </div>
+            <p>
+              Browse our growing collection and start building your personal
+              library today.
+            </p>
 
-            <div className="why-card">
-              ⚡<h3>Fast Experience</h3>
-              <p>Simple and smooth browsing.</p>
-            </div>
-
-            <div className="why-card">
-              🔒
-              <h3>Secure Orders</h3>
-              <p>Protected login and ordering.</p>
-            </div>
+            <Link to="/books">
+              <button className="hero-btn">Explore Collection</button>
+            </Link>
           </div>
         </div>
       </section>

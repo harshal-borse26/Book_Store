@@ -21,7 +21,7 @@ function Wishlist() {
         },
       });
 
-      setBooks(response.data.wishlist);
+      setBooks(response.data.wishlist || []);
     } catch (error) {
       console.error(error);
     } finally {
@@ -39,7 +39,7 @@ function Wishlist() {
         },
       });
 
-      setBooks(books.filter((book) => book._id !== bookId));
+      setBooks((prev) => prev.filter((book) => book._id !== bookId));
     } catch (error) {
       console.error(error);
     }
@@ -50,50 +50,57 @@ function Wishlist() {
   }
 
   return (
-    <div className="container">
-      <div className="orders-header">
+    <div className="container wishlist-page">
+      <div className="wishlist-header">
+        <span className="wishlist-tag">Saved Collection</span>
+
         <h1>My Wishlist ❤️</h1>
 
         <p>Books you want to read later</p>
+
+        <div className="wishlist-count">
+          {books.length} Saved Book{books.length !== 1 ? "s" : ""}
+        </div>
       </div>
 
       {books.length === 0 ? (
-        <div className="empty-orders">
-          <div className="empty-icon">❤️</div>
+        <div className="wishlist-empty">
+          <div className="wishlist-empty-icon">❤️</div>
 
-          <h2>Wishlist Empty</h2>
+          <h2>Your wishlist is empty</h2>
+
+          <p>Start exploring books and save the ones you like for later.</p>
+
+          <Link to="/books" className="wishlist-empty-btn">
+            Browse Books
+          </Link>
         </div>
       ) : (
-        <div className="books-grid">
+        <div className="wishlist-grid">
           {books.map((book) => (
-            <Link key={book._id} to={`/book/${book._id}`} className="book-link">
-              <div className="premium-book-card">
-                <div className="premium-book-cover">
+            <div key={book._id} className="wishlist-card">
+              <Link to={`/book/${book._id}`} className="wishlist-card-link">
+                <div className="wishlist-image">
                   <img src={book.imageUrl} alt={book.title} />
                 </div>
 
-                <div className="premium-book-info">
+                <div className="wishlist-content">
                   <h3>{book.title}</h3>
-
                   <p>{book.author}</p>
 
-                  <div className="premium-book-footer">
-                    <span>₹{book.price}</span>
-
-                    <button
-                      className="remove-btn"
-                      onClick={(e) => {
-                        e.preventDefault();
-
-                        removeBook(book._id);
-                      }}
-                    >
-                      Remove
-                    </button>
+                  <div className="wishlist-footer">
+                    <span className="wishlist-price">₹{book.price}</span>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+
+              <button
+                className="wishlist-remove-btn"
+                onClick={() => removeBook(book._id)}
+              >
+                Remove
+              </button>
+            </div>
           ))}
         </div>
       )}

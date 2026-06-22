@@ -73,7 +73,42 @@
 
   align-items:center;
 
-  gap:15px;
+  gap:12px;
+
+  width:max-content;
+
+  background:#f8fafc;
+
+  padding:8px;
+
+  border-radius:999px;
+
+  border:1px solid #e2e8f0;
+}
+
+.qty-box button{
+
+  width:32px;
+
+  height:32px;
+
+  border-radius:50%;
+
+  background:white;
+
+  color:#0f172a;
+
+  box-shadow:
+  0 4px 10px rgba(15,23,42,.05);
+}
+
+.qty-box span{
+
+  min-width:20px;
+
+  text-align:center;
+
+  font-weight:700;
 }
 
 .qty-box button{
@@ -171,13 +206,176 @@
   cursor:pointer;
 }
 
-.cart-book-card::after{
+.summary-subtitle{
 
-  content:"View Details →";
+  color:#64748b;
 
-  margin-left:auto;
+  margin-top:6px;
 
-  color:#c68b3c;
+  margin-bottom:25px;
+}
+
+.cart-header{
+
+  text-align:center;
+
+  margin-bottom:45px;
+}
+
+.cart-tag{
+
+  display:inline-block;
+
+  background:white;
+
+  padding:10px 18px;
+
+  border-radius:999px;
+
+  font-size:14px;
 
   font-weight:600;
+
+  box-shadow:
+  0 8px 20px rgba(15,23,42,.05);
+}
+
+.cart-header h1{
+
+  font-size:3.5rem;
+
+  margin-top:18px;
+
+  color:#0f172a;
+}
+
+.cart-header p{
+
+  color:#64748b;
+
+  margin-top:12px;
+}
+
+.cart-book-card .remove-btn{
+  background:#ef4444;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+  min-width:110px;
+}
+
+.cart-book-card .remove-btn:hover{
+  background:#dc2626;
+  transform:translateY(-2px);
+}
+.cart-summary-card .buy-btn{
+  width:100%;
+  height:54px;
+
+  background:#0f172a;
+  color:white;
+
+  border:none;
+
+  border-radius:14px;
+
+  font-size:16px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:.3s;
+}
+
+.cart-summary-card .buy-btn:hover{
+  background:#d29b45;
+  transform:translateY(-2px);
+}
+.cart-book-card{
+  display:grid;
+
+  grid-template-columns:
+  120px
+  1fr
+  auto;
+
+  gap:25px;
+
+  align-items:center;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 768px){
+
+  .cart-layout{
+    grid-template-columns:1fr;
+    gap:20px;
+  }
+
+  .cart-summary-card{
+    position:static;
+    width:100%;
+    order:-1;
+  }
+
+  .cart-book-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+  }
+
+  .cart-book-image{
+    width:140px;
+    height:200px;
+  }
+
+  .cart-book-info{
+    width:100%;
+  }
+
+  .cart-book-info h3{
+    font-size:1.2rem;
+    margin-bottom:8px;
+  }
+
+  .qty-box{
+    justify-content:center;
+    margin-top:15px;
+  }
+
+  .cart-book-card .remove-btn{
+    width:100%;
+    max-width:220px;
+    margin-top:15px;
+  }
+
+  .summary-row{
+    font-size:15px;
+  }
+
+  .cart-summary-card .buy-btn{
+    height:50px;
+  }
+
+}
+
+@media (max-width:768px){
+
+  .orders-page{
+    padding-left:15px;
+    padding-right:15px;
+  }
+
+  .cart-book-card{
+    width:100%;
+    overflow:hidden;
+  }
+
 }
