@@ -18,7 +18,8 @@ import "./styles/profile.css";
 import "./styles/checkout.css";
 import "./styles/cart.css";
 import "./styles/admin.css";
-
+import "./styles/EditBook.css";
+import "./styles/ManageBooks.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>

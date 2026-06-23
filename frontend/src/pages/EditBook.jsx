@@ -142,97 +142,153 @@ function EditBook() {
 
   return (
 
-    <div className="container">
+    <div className="edit-book-page">
 
-      <div className="auth-card">
+  <div className="container">
 
-        <h1>
-          Edit Book
-        </h1>
+    <div className="edit-book-header">
+
+      <div>
+        <span className="edit-tag">
+          📚 Admin Panel
+        </span>
+
+        <h1>Edit Book</h1>
+
+        <p>
+          Update book details, pricing, stock and metadata.
+        </p>
+      </div>
+
+    </div>
+
+    <div className="edit-book-layout">
+
+      <div className="edit-book-card">
 
         <form
-          onSubmit={
-            handleSubmit
-          }
+          onSubmit={handleSubmit}
+          className="edit-book-form"
         >
 
-          <input
-            name="title"
-            value={
-              formData.title
-            }
-            onChange={
-              handleChange
-            }
-            placeholder="Title"
-          />
+          <div className="form-group">
+            <label>Book Title</label>
 
-          <input
-            name="author"
-            value={
-              formData.author
-            }
-            onChange={
-              handleChange
-            }
-            placeholder="Author"
-          />
+            <input
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="Enter book title"
+            />
+          </div>
 
-          <input
-            name="price"
-            value={
-              formData.price
-            }
-            onChange={
-              handleChange
-            }
-            placeholder="Price"
-          />
+          <div className="form-group">
+            <label>Author</label>
 
-          <input
-            name="stock"
-            value={
-              formData.stock
-            }
-            onChange={
-              handleChange
-            }
-            placeholder="Stock"
-          />
+            <input
+              name="author"
+              value={formData.author}
+              onChange={handleChange}
+              placeholder="Author name"
+            />
+          </div>
 
-          <input
-            name="language"
-            value={
-              formData.language
-            }
-            onChange={
-              handleChange
-            }
-            placeholder="Language"
-          />
+          <div className="form-row">
 
-          <textarea
-            name="desc"
-            value={
-              formData.desc
-            }
-            onChange={
-              handleChange
-            }
-            placeholder="Description"
-          />
+            <div className="form-group">
+              <label>Price</label>
+
+              <input
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                placeholder="Price"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Stock</label>
+
+              <input
+                name="stock"
+                value={formData.stock}
+                onChange={handleChange}
+                placeholder="Stock"
+              />
+            </div>
+
+          </div>
+
+          <div className="form-group">
+            <label>Language</label>
+
+            <input
+              name="language"
+              value={formData.language}
+              onChange={handleChange}
+              placeholder="Language"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Description</label>
+
+            <textarea
+              name="desc"
+              value={formData.desc}
+              onChange={handleChange}
+              placeholder="Book description"
+            />
+          </div>
 
           <button
             type="submit"
+            className="update-book-btn"
           >
-            Update Book
+            Save Changes
           </button>
 
         </form>
 
       </div>
 
+      <div className="book-preview-card">
+
+        <div className="preview-icon">
+          📖
+        </div>
+
+        <h3>{formData.title || "Book Title"}</h3>
+
+        <p>
+          {formData.author || "Author"}
+        </p>
+
+        <div className="preview-stats">
+
+          <div>
+            <span>Price</span>
+            <strong>₹{formData.price || 0}</strong>
+          </div>
+
+          <div>
+            <span>Stock</span>
+            <strong>{formData.stock || 0}</strong>
+          </div>
+
+        </div>
+
+        <div className="preview-language">
+          {formData.language || "Language"}
+        </div>
+
+      </div>
+
     </div>
+
+  </div>
+
+</div>
 
   );
 

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function ManageBooks() {
   const navigate = useNavigate();
+
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
@@ -14,7 +15,6 @@ function ManageBooks() {
   const fetchBooks = async () => {
     try {
       const response = await api.get("/books");
-
       setBooks(response.data.books);
     } catch (error) {
       console.error(error);
@@ -22,70 +22,152 @@ function ManageBooks() {
   };
 
   const deleteBook = async (bookId) => {
-    const confirmDelete = window.confirm("Delete this book?");
+    const confirmDelete =
+      window.confirm("Delete this book?");
 
     if (!confirmDelete) return;
 
     try {
-      const token = localStorage.getItem("token");
+      const token =
+        localStorage.getItem("token");
 
-      const response = await api.delete(`/books/${bookId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response =
+        await api.delete(
+          `/books/${bookId}`,
+          {
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
+          }
+        );
 
-      toast.success(response.data.message);
+      toast.success(
+        response.data.message
+      );
 
       fetchBooks();
+
     } catch (error) {
-      toast.error(error.response?.data?.message);
+
+      toast.error(
+        error.response?.data?.message
+      );
+
     }
   };
 
   return (
-    <div className="container">
-      <div className="orders-header">
-        <h1>Manage Books</h1>
+    <div className="manage-books-page">
 
-        <p>Edit or delete books</p>
-      </div>
+      <div className="container">
 
-      <div className="books-grid">
-        {books.map((book) => (
-          <div key={book._id} className="premium-book-card">
-            <div className="premium-book-cover">
-              <img src={book.imageUrl} alt={book.title} />
-            </div>
+        <div className="manage-books-header">
 
-            <div className="premium-book-info">
-              <h3>{book.title}</h3>
+          <div>
 
-              <p>{book.author}</p>
+            <span className="admin-tag">
+              📚 Admin Panel
+            </span>
 
-              <div className="admin-book-actions">
-                <button
-  className="edit-btn"
-  onClick={() =>
-    navigate(
-      `/edit-book/${book._id}`
-    )
-  }
->
-  Edit
-</button>
+            <h1>
+              Manage Books
+            </h1>
 
-                <button
-                  className="delete-btn"
-                  onClick={() => deleteBook(book._id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
+            <p>
+              Update, manage and organize
+              your bookstore collection.
+            </p>
+
           </div>
-        ))}
+
+          <button
+            className="add-book-btn"
+            onClick={() =>
+              navigate("/add-book")
+            }
+          >
+            + Add New Book
+          </button>
+
+        </div>
+
+
+        <div className="manage-books-grid">
+
+          {books.map((book) => (
+
+            <div
+              key={book._id}
+              className="manage-book-card"
+            >
+
+              <div className="manage-book-image">
+
+                <img
+                  src={book.imageUrl}
+                  alt={book.title}
+                />
+
+              </div>
+
+              <div className="manage-book-content">
+
+                <h3>
+                  {book.title}
+                </h3>
+
+                <p>
+                  {book.author}
+                </p>
+
+                <div className="book-meta">
+
+                  <span>
+                    ₹{book.price}
+                  </span>
+
+                  <span>
+                    Stock:
+                    {book.stock}
+                  </span>
+
+                </div>
+
+                <div className="admin-book-actions">
+
+                  <button
+                    className="edit-book-btn"
+                    onClick={() =>
+                      navigate(
+                        `/edit-book/${book._id}`
+                      )
+                    }
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="delete-book-btn"
+                    onClick={() =>
+                      deleteBook(book._id)
+                    }
+                  >
+                    Delete
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
       </div>
+
     </div>
   );
 }

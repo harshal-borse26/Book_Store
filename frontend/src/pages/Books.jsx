@@ -89,7 +89,7 @@ function Books() {
       value={language}
       onChange={(e) => setLanguage(e.target.value)}
     >
-      <option value="all">🌐 Language</option>
+      <option value="all"> Language </option>
       <option value="English">English</option>
       <option value="Hindi">Hindi</option>
       <option value="Marathi">Marathi</option>
@@ -99,7 +99,7 @@ function Books() {
       value={priceRange}
       onChange={(e) => setPriceRange(e.target.value)}
     >
-      <option value="all">💰 Price Range</option>
+      <option value="all">Price Range</option>
       <option value="below500">Below ₹500</option>
       <option value="500to1000">₹500 - ₹1000</option>
       <option value="above1000">Above ₹1000</option>
@@ -109,7 +109,7 @@ function Books() {
       value={sortBy}
       onChange={(e) => setSortBy(e.target.value)}
     >
-      <option value="default">📊 Sort By</option>
+      <option value="default">Sort By</option>
       <option value="low-high">Low → High</option>
       <option value="high-low">High → Low</option>
       <option value="rating">Highest Rated</option>
