@@ -18,6 +18,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ManageBooks from "./pages/ManageBooks";
 import EditBook from "./pages/EditBook";
 import AdminRoute from "./components/AdminRoute";
+import ReadingJourney from "./pages/ReadingJourney";
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
         <Route path="/admin" element={ <AdminRoute> <AdminDashboard /> </AdminRoute> } />
         <Route path="/admin/books" element={<AdminRoute> <ManageBooks /> </AdminRoute>} />
         <Route path="/edit-book/:id" element={<AdminRoute> <EditBook /> </AdminRoute>} />
-
+        <Route path="/journey" element={<ProtectedRoute> <ReadingJourney /> </ProtectedRoute>}/>
       </Routes>
     </>
   );

@@ -1,6 +1,7 @@
 import api from "../services/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -10,6 +11,14 @@ function Navbar() {
   const [cartCount, setCartCount] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const location = useLocation();
+  useEffect(() => {
+  setShowMenu(false);
+}, [location]);
+
+  useEffect(() => {
+  setMobileMenu(false);
+}, [location]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -113,6 +122,8 @@ function Navbar() {
                   <span className="nav-badge">{cartCount}</span>
                 )}
               </Link>
+
+              <Link to="/journey">Journey</Link>
 
               {!isMobile ? (
                 <div className="user-dropdown">

@@ -1,6 +1,5 @@
 import express from "express";
 import connectDB from "../config/db.js";
-
 import authRoutes from "../routes/auth.routes.js";
 import booksRoutes from "../routes/book.routes.js";
 import orderRoutes from "../routes/order.routes.js";
@@ -9,17 +8,13 @@ import wishlistRoutes from "../routes/wishlist.routes.js";
 import profileRoutes from "../routes/profile.routes.js";
 import cartRoutes from "../routes/cart.routes.js";
 import adminRoutes from "../routes/admin.route.js";
-
+import journeyRoutes from "../routes/journey.routes.js";
 import cors from "cors";
 
 const app = express();
-
 app.use(cors());
-
 app.use(express.json());
-
 await connectDB();
-
 app.get("/", (req, res) => {
   res.send("Bookstore Api is running");
 });
@@ -32,6 +27,6 @@ app.use("/api/order", orderRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/admin", adminRoutes);
-
+app.use("/api/journeys", journeyRoutes);
 
 export default app;

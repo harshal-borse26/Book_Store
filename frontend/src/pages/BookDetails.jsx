@@ -128,7 +128,10 @@ function BookDetails() {
   const recommendedBooks = useMemo(() => {
     if (!book) return [];
 
-    const normalize = (value) => String(value || "").trim().toLowerCase();
+    const normalize = (value) =>
+      String(value || "")
+        .trim()
+        .toLowerCase();
     const currentAuthor = normalize(book.author);
     const currentLanguage = normalize(book.language);
 
@@ -317,7 +320,9 @@ function BookDetails() {
       <div className="container details-page">
         <div className="book-not-found">
           <h2>Book not found</h2>
-          <p>The book you are looking for no longer exists or could not load.</p>
+          <p>
+            The book you are looking for no longer exists or could not load.
+          </p>
           <button onClick={() => navigate("/books")}>Back to Books</button>
         </div>
       </div>
@@ -360,13 +365,19 @@ function BookDetails() {
                 <button type="button" onClick={handleShare}>
                   ↗ Share
                 </button>
+
+                <button
+                  className="wish-btn"
+                  onClick={() => navigate(`/journey?bookId=${book._id}`)}
+                >
+                  Track Journey
+                </button>
+                
               </div>
             </div>
 
             <div className="product-info-column">
-              <span className="product-badge">
-                {book.language || "Book"}
-              </span>
+              <span className="product-badge">{book.language || "Book"}</span>
 
               <h1>{book.title}</h1>
 
@@ -378,7 +389,9 @@ function BookDetails() {
                   {totalReviews} Review{totalReviews === 1 ? "" : "s"}
                 </span>
                 <span>•</span>
-                <span>{isInStock ? "Available now" : "Currently unavailable"}</span>
+                <span>
+                  {isInStock ? "Available now" : "Currently unavailable"}
+                </span>
               </div>
 
               <p className="product-description">{book.desc}</p>
@@ -408,8 +421,6 @@ function BookDetails() {
                   <strong>{totalReviews}</strong>
                 </div>
               </div>
-
-              
             </div>
 
             <aside className="purchase-card">
@@ -417,10 +428,10 @@ function BookDetails() {
 
               <p className="purchase-note">Inclusive of all taxes</p>
 
-              <div className={`stock-pill ${isInStock ? "in-stock" : "out-stock"}`}>
-                {isInStock
-                  ? `In Stock • ${book.stock} left`
-                  : "Out of stock"}
+              <div
+                className={`stock-pill ${isInStock ? "in-stock" : "out-stock"}`}
+              >
+                {isInStock ? `In Stock • ${book.stock} left` : "Out of stock"}
               </div>
 
               <button
@@ -500,9 +511,7 @@ function BookDetails() {
                   <span>★</span>
                 </div>
 
-                <div className="rating-stars-row">
-                  {"★★★★★"}
-                </div>
+                <div className="rating-stars-row">{"★★★★★"}</div>
 
                 <p>{totalReviews} reviews</p>
               </div>
@@ -511,9 +520,7 @@ function BookDetails() {
             <div className="rating-bars-card">
               {[5, 4, 3, 2, 1].map((star) => {
                 const count = ratingCounts[star];
-                const width = totalReviews
-                  ? (count / totalReviews) * 100
-                  : 0;
+                const width = totalReviews ? (count / totalReviews) * 100 : 0;
 
                 return (
                   <div key={star} className="rating-row">
@@ -581,9 +588,7 @@ function BookDetails() {
             <h3>Customer Reviews</h3>
 
             {reviews.length === 0 ? (
-              <div className="empty-inline">
-                No reviews yet.
-              </div>
+              <div className="empty-inline">No reviews yet.</div>
             ) : (
               <div className="reviews-list">
                 {reviews.map((review) => {
@@ -658,9 +663,7 @@ function BookDetails() {
                         <div className="recommend-placeholder">📚</div>
                       )}
 
-                      <span className="recommend-rating">
-                        ⭐ {itemAverage}
-                      </span>
+                      <span className="recommend-rating">⭐ {itemAverage}</span>
                     </div>
 
                     <div className="recommend-content">
@@ -687,8 +690,6 @@ function BookDetails() {
             </div>
           )}
         </section>
-
-        
       </div>
     </div>
   );
