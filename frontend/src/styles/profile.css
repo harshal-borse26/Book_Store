@@ -1,164 +1,993 @@
+/* =====================================================
+                PROFILE PAGE
+===================================================== */
+
 .profile-page{
-  padding:80px 0;
+
+    padding:50px 0 90px;
+
+    position:relative;
+
+    overflow:hidden;
 }
 
+.profile-page::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:420px;
+
+    height:420px;
+
+    top:-180px;
+
+    left:-140px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+    circle,
+    rgba(210,155,69,.12),
+    transparent 70%);
+
+    filter:blur(20px);
+
+    pointer-events:none;
+}
+
+.profile-page::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:320px;
+
+    height:320px;
+
+    right:-120px;
+
+    bottom:0;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+    circle,
+    rgba(15,23,42,.05),
+    transparent 70%);
+
+    filter:blur(20px);
+
+    pointer-events:none;
+}
+
+.profile-page>*{
+
+    position:relative;
+
+    z-index:2;
+}
+
+
+/* =====================================================
+                    HERO
+===================================================== */
+
+.profile-header{
+
+    text-align:center;
+
+    margin-bottom:50px;
+}
+
+.profile-tag{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    background:#fff7ed;
+
+    color:#d29b45;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    letter-spacing:.03em;
+
+    box-shadow:
+    0 10px 25px rgba(210,155,69,.15);
+}
+
+.profile-header h1{
+
+    margin-top:22px;
+
+    font-size:clamp(2.8rem,5vw,4.3rem);
+
+    color:#0f172a;
+
+    letter-spacing:-1px;
+
+    line-height:1.1;
+}
+
+.profile-header h1 span{
+
+    color:#d29b45;
+}
+
+.profile-header p{
+
+    max-width:700px;
+
+    margin:18px auto 0;
+
+    color:#64748b;
+
+    font-size:16px;
+
+    line-height:1.8;
+}
+
+
+/* =====================================================
+          PROFILE + PERSONAL INFO
+===================================================== */
+
+.profile-top-section{
+
+    display:grid;
+
+    grid-template-columns:
+
+    350px 1fr;
+
+    gap:35px;
+
+    align-items:start;
+
+    margin-bottom:50px;
+}
+
+
+/* ========================= */
+
 .profile-card{
-  max-width:850px;
 
-  margin:auto;
+    background:white;
 
-  background:white;
+    border-radius:32px;
 
-  padding:50px;
+    padding:40px 30px;
 
-  border-radius:32px;
+    text-align:center;
 
-  text-align:center;
+    border:1px solid rgba(15,23,42,.05);
 
-  box-shadow:
-  0 20px 50px rgba(15,23,42,.08);
+    box-shadow:
+
+    0 20px 55px rgba(15,23,42,.07);
+
+    transition:.35s;
+}
+
+.profile-card:hover{
+
+    transform:
+
+    translateY(-5px);
+
+    box-shadow:
+
+    0 30px 65px rgba(15,23,42,.12);
 }
 
 .profile-avatar{
-  width:120px;
-  height:120px;
 
-  margin:auto;
+    width:120px;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+    height:120px;
 
-  border-radius:50%;
+    margin:auto;
 
-  background:#f8f7f4;
+    border-radius:50%;
 
-  font-size:3rem;
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:
+
+    linear-gradient(
+
+    135deg,
+
+    #d29b45,
+
+    #b77c2d);
+
+    color:white;
+
+    font-size:48px;
+
+    font-weight:700;
+
+    box-shadow:
+
+    0 20px 45px rgba(210,155,69,.30);
 }
 
-.profile-card h1{
-  margin-top:20px;
+.profile-card h2{
 
-  color:#0f172a;
+    margin-top:24px;
+
+    color:#0f172a;
+
+    font-size:1.9rem;
 }
 
-.profile-card p{
-  color:#64748b;
+.profile-email{
+
+    margin-top:8px;
+
+    color:#64748b;
+
+    word-break:break-word;
 }
 
 .profile-stats{
-  margin-top:40px;
 
-  display:grid;
+    display:grid;
 
-  grid-template-columns:
-  repeat(3,1fr);
+    grid-template-columns:repeat(3,1fr);
 
-  gap:20px;
+    gap:14px;
+
+    margin-top:35px;
 }
 
 .profile-stat{
-  background:#f8f7f4;
 
-  padding:30px;
+    padding:20px;
 
-  border-radius:20px;
+    border-radius:18px;
+
+    background:#f8fafc;
+
+    transition:.3s;
 }
 
-.profile-stat h2{
-  color:#c68b3c;
+.profile-stat:hover{
 
-  font-size:2rem;
+    background:#fff7ed;
+
+    transform:translateY(-4px);
+}
+
+.profile-stat h3{
+
+    color:#d29b45;
+
+    font-size:1.8rem;
+
+    margin-bottom:6px;
 }
 
 .profile-stat span{
-  color:#64748b;
+
+    color:#64748b;
+
+    font-size:14px;
 }
 
-.profile-actions{
-  margin-top:40px;
+/* =====================================================
+        PERSONAL INFORMATION CARD
+===================================================== */
 
-  display:flex;
+.address-card{
 
-  justify-content:center;
+    background:white;
 
-  gap:20px;
+    border-radius:32px;
 
-  flex-wrap:wrap;
+    padding:40px;
+
+    border:1px solid rgba(15,23,42,.05);
+
+    box-shadow:
+    0 20px 55px rgba(15,23,42,.07);
 }
 
-.profile-action-btn{
-  background:#0f172a;
+.section-heading{
 
-  color:white;
-
-  padding:14px 24px;
-
-  border-radius:14px;
-
-  transition:.3s;
+    margin-bottom:28px;
 }
 
-.profile-action-btn:hover{
-  background:#c68b3c;
+.section-heading h2{
 
-  transform:translateY(-3px);
+    font-size:2rem;
+
+    color:#0f172a;
+
+    margin-bottom:8px;
 }
 
-@media(max-width:768px){
+.section-heading p{
 
-  .profile-stats{
-    grid-template-columns:1fr;
-  }
+    color:#64748b;
 
+    line-height:1.7;
+}
+
+
+/* ==================================== */
+
+.info-preview{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:18px;
+
+    margin-bottom:28px;
+}
+
+.info-item{
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:#f8fafc;
+
+    border:1px solid rgba(15,23,42,.05);
+}
+
+.info-item span{
+
+    display:block;
+
+    font-size:13px;
+
+    color:#94a3b8;
+
+    margin-bottom:6px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+}
+
+.info-item strong{
+
+    color:#0f172a;
+
+    font-size:1.05rem;
+}
+
+
+/* =====================================================
+            ADDRESS FORM
+===================================================== */
+
+.address-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:18px;
+
+    margin-bottom:18px;
+}
+
+.address-card input,
+
+.address-card textarea{
+
+    width:100%;
+
+    padding:16px 18px;
+
+    border-radius:16px;
+
+    border:1px solid #e5e7eb;
+
+    background:#fafafa;
+
+    font-size:15px;
+
+    transition:.3s;
+}
+
+.address-card textarea{
+
+    min-height:130px;
+
+    resize:none;
+
+    margin-bottom:24px;
+}
+
+.address-card input:focus,
+
+.address-card textarea:focus{
+
+    outline:none;
+
+    border-color:#d29b45;
+
+    background:white;
+
+    box-shadow:
+    0 0 0 4px rgba(210,155,69,.12);
+}
+
+
+/* ==================================== */
+
+.save-address-btn{
+
+    width:100%;
+
+    height:58px;
+
+    border:none;
+
+    border-radius:16px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:white;
+
+    background:
+    linear-gradient(
+    135deg,
+    #0f172a,
+    #1e293b);
+
+    transition:.35s;
+}
+
+.save-address-btn:hover{
+
+    transform:translateY(-3px);
+
+    background:
+    linear-gradient(
+    135deg,
+    #d29b45,
+    #b7791f);
+
+    box-shadow:
+    0 20px 40px rgba(210,155,69,.28);
+}
+
+
+
+/* =====================================================
+            SECTION SPACING
+===================================================== */
+
+.profile-section{
+
+    margin-top:55px;
+}
+
+
+
+/* =====================================================
+            READING OVERVIEW
+===================================================== */
+
+.quick-actions-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:22px;
+}
+
+.quick-card{
+
+    background:white;
+
+    border-radius:28px;
+
+    padding:30px 22px;
+
+    text-align:center;
+
+    border:1px solid rgba(15,23,42,.05);
+
+    box-shadow:
+    0 18px 40px rgba(15,23,42,.06);
+
+    transition:.35s;
+
+    text-decoration:none;
+
+    color:inherit;
+}
+
+.quick-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+    0 28px 60px rgba(15,23,42,.10);
+}
+
+.quick-icon{
+
+    width:72px;
+
+    height:72px;
+
+    margin:auto;
+
+    border-radius:20px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:34px;
+
+    background:#fff7ed;
+
+    margin-bottom:22px;
+
+    transition:.35s;
+}
+
+.quick-card:hover .quick-icon{
+
+    transform:scale(1.1);
+
+    background:#d29b45;
+}
+
+.quick-card h3{
+
+    font-size:2rem;
+
+    color:#0f172a;
+
+    margin-bottom:10px;
+}
+
+.quick-card p{
+
+    color:#64748b;
+
+    line-height:1.6;
+}
+
+
+
+/* =====================================================
+        READING ANALYTICS
+===================================================== */
+
+.quick-card:nth-child(1){
+
+    animation:fadeUp .4s;
+}
+
+.quick-card:nth-child(2){
+
+    animation:fadeUp .55s;
+}
+
+.quick-card:nth-child(3){
+
+    animation:fadeUp .7s;
+}
+
+.quick-card:nth-child(4){
+
+    animation:fadeUp .85s;
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        translateY(25px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+        translateY(0);
+    }
+
+}
+
+/* =====================================================
+            CONTINUE READING
+===================================================== */
+
+.dashboard-placeholder{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:linear-gradient(
+    135deg,
+    #ffffff,
+    #fcfcfc);
+
+    border-radius:32px;
+
+    padding:45px;
+
+    text-align:center;
+
+    border:1px solid rgba(15,23,42,.05);
+
+    box-shadow:
+    0 20px 50px rgba(15,23,42,.08);
+
+    transition:.35s;
+}
+
+.dashboard-placeholder:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 30px 65px rgba(15,23,42,.12);
+}
+
+.dashboard-placeholder::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:250px;
+
+    height:250px;
+
+    top:-120px;
+
+    right:-100px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+    circle,
+    rgba(210,155,69,.18),
+    transparent 70%);
+}
+
+.dashboard-icon{
+
+    width:90px;
+
+    height:90px;
+
+    margin:auto;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:24px;
+
+    font-size:42px;
+
+    background:#fff7ed;
+
+    color:#d29b45;
+
+    box-shadow:
+    0 20px 40px rgba(210,155,69,.20);
+
+    animation:floatIcon 4s ease-in-out infinite;
+}
+
+.dashboard-placeholder h3{
+
+    margin-top:28px;
+
+    font-size:2rem;
+
+    color:#0f172a;
+}
+
+.dashboard-placeholder p{
+
+    margin-top:10px;
+
+    color:#64748b;
+
+    line-height:1.7;
+}
+
+.dashboard-placeholder .save-address-btn{
+
+    margin-top:30px;
+
+    max-width:280px;
+
+    margin-inline:auto;
+}
+
+
+/* =====================================================
+            LINKS
+===================================================== */
+
+.quick-card{
+
+    text-decoration:none;
+
+    color:inherit;
+}
+
+.quick-card h3{
+
+    transition:.3s;
+}
+
+.quick-card:hover h3{
+
+    color:#d29b45;
+}
+
+
+
+/* =====================================================
+            LOADER
+===================================================== */
+
+.loader-wrapper{
+
+    min-height:75vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-direction:column;
+
+    gap:18px;
+}
+
+.loader-wrapper p{
+
+    color:#64748b;
+}
+
+
+
+/* =====================================================
+            ANIMATIONS
+===================================================== */
+
+.profile-card{
+
+    animation:slideLeft .6s ease;
 }
 
 .address-card{
 
-  margin-top:40px;
-
-  padding:30px;
-
-  background:#f8f7f4;
-
-  border-radius:24px;
+    animation:slideRight .6s ease;
 }
 
-.address-card h2{
+.profile-section{
 
-  margin-bottom:20px;
+    animation:fadeUp .7s ease;
 }
 
-.address-grid{
+@keyframes slideLeft{
 
-  display:grid;
+    from{
 
-  grid-template-columns:
-  repeat(2,1fr);
+        opacity:0;
 
-  gap:15px;
+        transform:translateX(-35px);
+    }
 
-  margin-bottom:15px;
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+    }
+
 }
 
-.address-card input,
-.address-card textarea{
+@keyframes slideRight{
 
-  width:100%;
+    from{
+
+        opacity:0;
+
+        transform:translateX(35px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+    }
+
 }
 
-.address-card textarea{
+@keyframes floatIcon{
 
-  min-height:120px;
+    0%,100%{
 
-  margin-bottom:20px;
+        transform:translateY(0px);
+    }
+
+    50%{
+
+        transform:translateY(-10px);
+    }
+
+}
+
+
+
+/* =====================================================
+            RESPONSIVE
+===================================================== */
+
+@media(max-width:1100px){
+
+    .profile-top-section{
+
+        grid-template-columns:1fr;
+    }
+
+    .profile-card{
+
+        max-width:500px;
+
+        margin:auto;
+    }
+
+    .quick-actions-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+    }
+
 }
 
 @media(max-width:768px){
 
-  .address-grid{
+    .profile-page{
 
-    grid-template-columns:1fr;
-  }
+        padding:30px 0 60px;
+    }
+
+    .profile-header{
+
+        margin-bottom:35px;
+    }
+
+    .profile-header h1{
+
+        font-size:2.3rem;
+    }
+
+    .profile-card,
+
+    .address-card,
+
+    .dashboard-placeholder{
+
+        padding:28px;
+    }
+
+    .profile-stats{
+
+        grid-template-columns:1fr;
+
+        gap:15px;
+    }
+
+    .info-preview{
+
+        grid-template-columns:1fr;
+    }
+
+    .address-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .quick-actions-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .dashboard-placeholder{
+
+        padding:35px 24px;
+    }
+
+}
+
+@media(max-width:480px){
+
+    .profile-avatar{
+
+        width:90px;
+
+        height:90px;
+
+        font-size:36px;
+    }
+
+    .profile-card h2{
+
+        font-size:1.5rem;
+    }
+
+    .section-heading h2{
+
+        font-size:1.5rem;
+    }
+
+    .dashboard-placeholder h3{
+
+        font-size:1.5rem;
+    }
+
+    .quick-card{
+
+        padding:24px 18px;
+    }
+
+    .quick-icon{
+
+        width:60px;
+
+        height:60px;
+
+        font-size:28px;
+    }
 
 }
