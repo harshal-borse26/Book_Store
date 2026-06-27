@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import BookCard from "../components/BookCard";
 import Loader from "../components/Loader";
+import BookCardSkeleton from "../components/BookCardSkeleton";
 
 function Books() {
   const [books, setBooks] = useState([]);
+const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [language, setLanguage] = useState("all");
   const [priceRange, setPriceRange] = useState("all");
@@ -15,14 +17,24 @@ function Books() {
   }, []);
 
   const fetchBooks = async () => {
-    try {
-      const response = await api.get("/books");
+  try {
 
-      setBooks(response.data.books);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    setLoading(true);
+
+    const response = await api.get("/books");
+
+    setBooks(response.data.books);
+
+  } catch (error) {
+
+    console.error(error);
+
+  } finally {
+
+    setLoading(false);
+
+  }
+};
 
   let filteredBooks = books.filter((book) => {
     const matchesSearch = book.title
@@ -131,10 +143,26 @@ function Books() {
       </div>
 
       <div className="books-grid">
-        {filteredBooks.map((book) => (
-          <BookCard key={book._id} book={book} />
-        ))}
-      </div>
+
+  {loading ? (
+
+    [...Array(8)].map((_, index) => (
+
+      <BookCardSkeleton key={index} />
+
+    ))
+
+  ) : (
+
+    filteredBooks.map((book) => (
+
+      <BookCard key={book._id} book={book} />
+
+    ))
+
+  )}
+
+</div>
     </div>
   );
 }
