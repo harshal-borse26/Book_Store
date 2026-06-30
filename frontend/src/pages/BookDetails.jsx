@@ -8,7 +8,7 @@ function BookDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const reviewFormRef = useRef(null);
-
+  const [reviewSort, setReviewSort] = useState("newest");
   const [book, setBook] = useState(null);
   const [allBooks, setAllBooks] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -20,6 +20,22 @@ function BookDetails() {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [activeTab, setActiveTab] = useState("about");
   const [submittingReview, setSubmittingReview] = useState(false);
+
+  const sortedReviews = [...reviews].sort((a, b) => {
+    if (reviewSort === "highest") {
+      return b.rating - a.rating;
+    }
+
+    if (reviewSort === "lowest") {
+      return a.rating - b.rating;
+    }
+
+    if (reviewSort === "oldest") {
+      return new Date(a.createdAt) - new Date(b.createdAt);
+    }
+
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
 
   const formatPrice = (value) =>
     new Intl.NumberFormat("en-IN", {
@@ -372,7 +388,6 @@ function BookDetails() {
                 >
                   Track Journey
                 </button>
-                
               </div>
             </div>
 
@@ -585,13 +600,33 @@ function BookDetails() {
           )}
 
           <div className="customer-reviews-card">
-            <h3>Customer Reviews</h3>
+            <div className="reviews-header">
+              <div>
+                <h2>User Reviews</h2>
+
+                <p>{reviews.length} Reviews</p>
+              </div>
+
+              <select
+                value={reviewSort}
+                onChange={(e) => setReviewSort(e.target.value)}
+                className="review-sort"
+              >
+                <option value="newest">Newest</option>
+
+                <option value="oldest">oldest</option>
+
+                <option value="highest">Highest Rated</option>
+
+                <option value="lowest">Lowest Rated</option>
+              </select>
+            </div>
 
             {reviews.length === 0 ? (
               <div className="empty-inline">No reviews yet.</div>
             ) : (
               <div className="reviews-list">
-                {reviews.map((review) => {
+                {sortedReviews.map((review) => {
                   const name =
                     review.user?.username || review.username || "Reader";
                   const avatar = name.trim().charAt(0).toUpperCase();
