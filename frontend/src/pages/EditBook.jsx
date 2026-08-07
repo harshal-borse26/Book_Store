@@ -51,26 +51,47 @@ function EditBook() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const token = localStorage.getItem("token");
-      const bookData = new FormData();
-      bookData.append("title", formData.title);
-      bookData.append("author", formData.author);
-      bookData.append("price", formData.price);
-      bookData.append("stock", formData.stock);
-      bookData.append("language", formData.language);
-      bookData.append("desc", formData.desc);
-      if (image) {
-        bookData.append("image", image);
-      }
-      toast.success("Book Updated");
-      navigate("/admin/books");
-    } catch (error) {
-      toast.error("Update Failed");
+  try {
+    const token = localStorage.getItem("token");
+
+    const bookData = new FormData();
+
+    bookData.append("title", formData.title);
+    bookData.append("author", formData.author);
+    bookData.append("price", formData.price);
+    bookData.append("stock", formData.stock);
+    bookData.append("language", formData.language);
+    bookData.append("desc", formData.desc);
+
+    if (image) {
+      bookData.append("image", image);
     }
-  };
+
+    const response = await api.put(
+      `/books/${id}`,
+      bookData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    toast.success(response.data.message || "Book Updated");
+
+    navigate("/admin/books");
+
+  } catch (error) {
+    console.error(error);
+
+    toast.error(
+      error.response?.data?.message || "Update Failed"
+    );
+  }
+};
 
   return (
     <div className="edit-book-page">
