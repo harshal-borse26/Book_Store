@@ -124,26 +124,68 @@ export const deleteBook =
 
 };
 
-export const updateBook =
-  async (req, res) => {
-
+export const updateBook = async (req, res) => {
   try {
 
-    const { id } =
-      req.params;
+    const { id } = req.params;
+
+    const {
+      title,
+      author,
+      price,
+      stock,
+      language,
+      desc,
+    } = req.body;
+
+    const updateData = {
+      title,
+      author,
+      price,
+      stock,
+      language,
+      desc,
+    };
+
+    // Upload new image if provided
+    if (req.file) {
+
+      const base64Image =
+        `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+
+      const uploadResult =
+        await cloudinary.uploader.upload(
+          base64Image,
+          {
+            folder: "books",
+          }
+        );
+
+      updateData.imageUrl =
+        uploadResult.secure_url;
+    }
 
     const updatedBook =
       await Book.findByIdAndUpdate(
         id,
-        req.body,
+        updateData,
         {
-          new:true
+          new: true,
+          runValidators: true,
         }
       );
 
+    if (!updatedBook) {
+      return res.status(404).json({
+        success: false,
+        message: "Book not found",
+      });
+    }
+
     res.status(200).json({
-      success:true,
-      book:updatedBook
+      success: true,
+      message: "Book updated successfully",
+      book: updatedBook,
     });
 
   } catch (error) {
@@ -151,12 +193,11 @@ export const updateBook =
     console.error(error);
 
     res.status(500).json({
-      success:false,
-      message:"Server Error"
+      success: false,
+      message: "Server Error",
     });
 
   }
-
 };
 
 export const getRecommendedBooks = async (

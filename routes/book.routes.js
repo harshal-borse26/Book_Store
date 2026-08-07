@@ -25,6 +25,12 @@ router.get("/:bookId/can-review", protectRoute, canReviewBook);
 router.get("/:id/recommendations", getRecommendedBooks);
 router.get("/:id", getBookById);
 router.delete("/:id", protectRoute, isAdmin, deleteBook);
-router.put("/:id", protectRoute, isAdmin, updateBook);
-
+// router.put("/:id", protectRoute, isAdmin, updateBook);
+router.put(
+  "/:id",
+  protectRoute,
+  isAdmin,
+  upload.single("image"),
+  updateBook
+);
 export default router;
